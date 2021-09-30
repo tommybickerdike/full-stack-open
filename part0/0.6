@@ -1,0 +1,15 @@
+title SPA NOTE ADD https://studies.cs.helsinki.fi/exampleapp/spa
+end note
+
+browser->server: HTTP POST /exampleapp/new_note_spa
+
+note over server:
+new note added to json file
+end note
+
+server-->browser:  201 {"message":"note created"}
+
+note over browser:
+Add new note to array 
+and redraw notes
+end note
