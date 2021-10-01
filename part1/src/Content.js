@@ -3,17 +3,18 @@ import React from "react";
 const Part = (props) => {
 	return (
 		<p>
-			{props.part} {props.exercises}
+			{props.name} {props.exercises}
 		</p>
 	);
 };
 
 const Content = (props) => {
+	console.log(props);
 	return (
 		<main>
-			<Part part={props.part1} exercises={props.exercises1} />
-			<Part part={props.part2} exercises={props.exercises2} />
-			<Part part={props.part3} exercises={props.exercises3} />
+			<Part name={props.part1.name} exercises={props.part1.exercises} />
+			<Part name={props.part2.name} exercises={props.part2.exercises} />
+			<Part name={props.part3.name} exercises={props.part3.exercises} />
 		</main>
 	);
 };
