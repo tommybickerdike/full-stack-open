@@ -1,21 +1,33 @@
 import React, { useState } from "react";
 
+const StatisticLine = ({ text, value }) => {
+	return (
+		<p>
+			{text} {value}
+		</p>
+	);
+};
+
 const Statistics = (props) => {
 	const values = props.values;
 	if (values.total) {
 		return (
 			<div>
-				<p>Good {values.good}</p>
-				<p>Neutral {values.neutral}</p>
-				<p>Bad {values.bad}</p>
-				<p>All {values.total}</p>
-				<p>Average {values.average}</p>
-				<p>Positive {values.positive}%</p>
+				<StatisticLine text={"Good"} value={values.good} />
+				<StatisticLine text={"Neutral"} value={values.neutral} />
+				<StatisticLine text={"Bad"} value={values.bad} />
+				<StatisticLine text={"All"} value={values.total} />
+				<StatisticLine text={"Average"} value={values.average} />
+				<StatisticLine text={"Positive"} value={values.positive} />
 			</div>
 		);
 	} else {
 		return <p>No feedback given</p>;
 	}
+};
+
+const Button = ({ text, handleClick }) => {
+	return <button onClick={handleClick}>{text}</button>;
 };
 
 const App = () => {
@@ -26,10 +38,6 @@ const App = () => {
 	const [score, setScore] = useState(0);
 	const [average, setAverage] = useState(0);
 	const [positive, setPositive] = useState(0);
-
-	const Button = ({ text, handleClick }) => {
-		return <button onClick={handleClick}>{text}</button>;
-	};
 
 	const clickGood = () => {
 		setGood(good + 1);
