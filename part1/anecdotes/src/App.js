@@ -14,6 +14,21 @@ const App = () => {
 	const points = Array(anecdotes.length).fill(0);
 	const [pointCount, setCount] = useState([...points]);
 	const [selected, setSelected] = useState(0);
+	const [popular, setPopular] = useState(0);
+
+	const updatePopular = (arr) => {
+		let max = arr[0];
+		let maxIndex = 0;
+
+		for (var i = 1; i < arr.length; i++) {
+			if (arr[i] > max) {
+				maxIndex = i;
+				max = arr[i];
+			}
+		}
+
+		setPopular(maxIndex);
+	};
 
 	const getRandom = (max) => () => {
 		const min = 0;
@@ -25,15 +40,19 @@ const App = () => {
 		const newCount = [...pointCount];
 		newCount[current] += 1;
 		setCount(newCount);
+		updatePopular(newCount);
 	};
 
 	return (
-		<>
+		<main>
+			<h1>Anecdote of the day</h1>
 			<div>{anecdotes[selected]}</div>
 			<p>Has {pointCount[selected]} votes</p>
 			<button onClick={vote(selected)}>vote</button>
 			<button onClick={getRandom(anecdotes.length)}>next anecdote</button>
-		</>
+			<h1>Anecdote with most votes</h1>
+			<p>{anecdotes[popular]}</p>
+		</main>
 	);
 };
 
