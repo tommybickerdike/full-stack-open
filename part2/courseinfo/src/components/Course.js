@@ -4,13 +4,15 @@ const Header = ({ header }) => {
 	return <h1>{header}</h1>;
 };
 
-// const Total = ({ course }) => {
-// 	const sum =
-// 		course.parts[0].exercises +
-// 		course.parts[1].exercises +
-// 		course.parts[2].exercises;
-// 	return <p>Number of exercises {sum}</p>;
-// };
+const Total = ({ parts }) => {
+	const exercises = parts.map((part) => part.exercises);
+	const sum = exercises.reduce((a, b) => a + b);
+	return (
+		<p>
+			<strong>Number of exercises {sum}</strong>
+		</p>
+	);
+};
 
 const Part = ({ part }) => {
 	return (
@@ -29,7 +31,7 @@ const Course = ({ course }) => {
 		<div>
 			<Header header={course.name} />
 			<Content parts={course.parts} />
-			{/* <Total course={course} /> */}
+			<Total parts={course.parts} />
 		</div>
 	);
 };
