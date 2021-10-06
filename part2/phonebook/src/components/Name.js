@@ -1,7 +1,11 @@
 import React from "react";
 
-const Name = ({ name }) => {
-	return <li>{name}</li>;
+const Name = ({ person }) => {
+	return (
+		<li>
+			{person.name} {person.number}
+		</li>
+	);
 };
 
 export default Name;
