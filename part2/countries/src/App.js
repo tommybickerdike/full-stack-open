@@ -27,9 +27,13 @@ const App = () => {
 		setSearch(event.target.value);
 	};
 
+	const showThis = (country) => () => {
+		setFiltered([country]);
+	};
+
 	const getLanguages = () => {
-		const languages = Object.values(filtered[0].languages);
-		return languages.map((language) => <li>{language}</li>);
+		const languages = Object.entries(filtered[0].languages);
+		return languages.map(([key, language]) => <li key={key}>{language}</li>);
 	};
 
 	return (
@@ -44,7 +48,7 @@ const App = () => {
 			) : filtered.length === 1 ? (
 				<div key={filtered[0].cca3}>
 					<h1>{filtered[0].name.common}</h1>
-					<p>Capital: {filtered[0].capital[0]}</p>
+					<p>Capital: {filtered[0].capital.join(", ")}</p>
 					<p>Population: {filtered[0].population}</p>
 					<h2>languages</h2>
 					<ul>{getLanguages()}</ul>
@@ -56,7 +60,10 @@ const App = () => {
 				</div>
 			) : (
 				filtered.map((country) => (
-					<div key={country.cca3}>{country.name.common}</div>
+					<div key={country.cca3}>
+						{country.name.common}
+						<button onClick={showThis(country)}>show</button>
+					</div>
 				))
 			)}
 		</main>
