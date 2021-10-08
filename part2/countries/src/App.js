@@ -49,9 +49,7 @@ const App = () => {
 				<ul>{getLanguages()}</ul>
 				<img width="200" alt={result.name.common} src={result.flags.svg} />
 				<h2>Weather in {result.capital.slice(0, 1)}</h2>
-				<p>
-					<Weather city={result.capital} />
-				</p>
+				<Weather city={result.capital} />
 			</div>
 		);
 	};
