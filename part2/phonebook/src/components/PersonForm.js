@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import Save from "../services/Save";
 
-const PersonForm = ({ persons, setPersons }) => {
+const PersonForm = ({ persons, setPersons, db }) => {
 	const [newName, setNewName] = useState("");
 	const [newNumber, setNewNumber] = useState("");
 	const updateName = (event) => {
@@ -15,10 +16,8 @@ const PersonForm = ({ persons, setPersons }) => {
 		const nameObject = {
 			name: newName,
 			number: newNumber,
-			id: persons.length + 1,
 		};
-
-		setPersons(persons.concat(nameObject));
+		Save.person(db, nameObject, setPersons, persons);
 		setNewName("");
 		setNewNumber("");
 	};

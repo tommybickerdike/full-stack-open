@@ -5,11 +5,12 @@ import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 
 const App = () => {
+	const db = "http://localhost:3001/persons";
 	const [persons, setPersons] = useState([]);
 
 	useEffect(() => {
-		axios.get("http://localhost:3001/db").then((response) => {
-			setPersons(response.data.persons);
+		axios.get(db).then((response) => {
+			setPersons(response.data);
 		});
 	}, []);
 
@@ -24,7 +25,7 @@ const App = () => {
 			<h2>Phonebook</h2>
 			<Filter filter={filter} setFilter={setFilter} />
 			<h2>add a new</h2>
-			<PersonForm persons={persons} setPersons={setPersons} />
+			<PersonForm persons={persons} setPersons={setPersons} db={db} />
 			<h2>Numbers</h2>
 			<Persons filteredNames={filteredNames} />
 		</div>
