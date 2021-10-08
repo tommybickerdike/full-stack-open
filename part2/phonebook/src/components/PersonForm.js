@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Save from "../services/Save";
+import Database from "../services/Database";
 
 const PersonForm = ({ persons, setPersons, db }) => {
 	const [newName, setNewName] = useState("");
@@ -17,7 +17,7 @@ const PersonForm = ({ persons, setPersons, db }) => {
 			name: newName,
 			number: newNumber,
 		};
-		Save.person(db, nameObject, setPersons, persons);
+		Database.add(nameObject, setPersons, persons);
 		setNewName("");
 		setNewNumber("");
 	};
