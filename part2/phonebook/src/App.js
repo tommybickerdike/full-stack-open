@@ -5,26 +5,27 @@ import Persons from "./components/Persons";
 import Database from "./services/Database";
 
 const App = () => {
-	const [persons, setPersons] = useState([]);
-
 	useEffect(() => {
 		Database.get(setPersons);
 	}, []);
 
-	const [filter, setFilter] = useState("");
+	const [persons, setPersons] = useState([]);
 
-	const filteredNames = persons.filter(
-		(person) => person.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1
-	);
+	const [filtered, setFilter] = useState("");
 
 	return (
 		<div>
 			<h2>Phonebook</h2>
-			<Filter filter={filter} setFilter={setFilter} />
+			<Filter filtered={filtered} setFilter={setFilter} />
 			<h2>add a new</h2>
 			<PersonForm persons={persons} setPersons={setPersons} />
 			<h2>Numbers</h2>
-			<Persons filteredNames={filteredNames} />
+			<Persons
+				filtered={filtered}
+				setFilter={setFilter}
+				persons={persons}
+				setPersons={setPersons}
+			/>
 		</div>
 	);
 };

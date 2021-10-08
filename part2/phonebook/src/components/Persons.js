@@ -1,11 +1,19 @@
 import React from "react";
-import Name from "./Name";
+import Database from "../services/Database";
 
-const Persons = ({ filteredNames }) => {
+const Persons = ({ persons, filtered, setPersons, ...props }) => {
+	const filteredNames = persons.filter(
+		(person) => person.name.toLowerCase().indexOf(filtered.toLowerCase()) !== -1
+	);
 	return (
 		<ul>
 			{filteredNames.map((person) => (
-				<Name key={person.id} person={person} />
+				<li key={person.id}>
+					{person.name} {person.number}
+					<button onClick={() => Database.remove(person, persons, setPersons)}>
+						DELETE
+					</button>
+				</li>
 			))}
 		</ul>
 	);

@@ -1,13 +1,13 @@
 import React from "react";
 
-const Filter = ({ filter, setFilter }) => {
+const Filter = ({ filtered, setFilter }) => {
 	const updateFilter = (event) => {
 		setFilter(event.target.value);
 	};
 
 	return (
 		<p>
-			filter shown with: <input value={filter} onChange={updateFilter} />
+			filter shown with: <input value={filtered} onChange={updateFilter} />
 		</p>
 	);
 };

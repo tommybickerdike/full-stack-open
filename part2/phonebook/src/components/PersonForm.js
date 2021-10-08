@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Database from "../services/Database";
 
-const PersonForm = ({ persons, setPersons, db }) => {
+const PersonForm = ({ persons, setPersons }) => {
 	const [newName, setNewName] = useState("");
 	const [newNumber, setNewNumber] = useState("");
 	const updateName = (event) => {
@@ -17,7 +17,7 @@ const PersonForm = ({ persons, setPersons, db }) => {
 			name: newName,
 			number: newNumber,
 		};
-		Database.add(nameObject, setPersons, persons);
+		Database.add(nameObject, persons, setPersons);
 		setNewName("");
 		setNewNumber("");
 	};
