@@ -4,8 +4,14 @@ import Database from "../services/Database";
 const PersonForm = ({ persons, setPersons }) => {
 	const [newName, setNewName] = useState("");
 	const [newNumber, setNewNumber] = useState("");
+
 	const updateName = (event) => {
 		setNewName(event.target.value);
+	};
+
+	const personObject = {
+		name: newName,
+		number: newNumber,
 	};
 
 	const updateNumber = (event) => {
@@ -13,11 +19,7 @@ const PersonForm = ({ persons, setPersons }) => {
 	};
 
 	const addName = () => {
-		const nameObject = {
-			name: newName,
-			number: newNumber,
-		};
-		Database.add(nameObject, persons, setPersons);
+		Database.add(personObject, persons, setPersons);
 		setNewName("");
 		setNewNumber("");
 	};
@@ -26,9 +28,10 @@ const PersonForm = ({ persons, setPersons }) => {
 		event.preventDefault();
 
 		const currentList = persons.map((person) => person.name);
+		const updatePerson = persons.find((person) => person.name === newName);
 
 		currentList.includes(newName)
-			? alert(`${newName} is already added to the phonebook`)
+			? Database.update(updatePerson, persons, setPersons, newNumber)
 			: addName();
 	};
 

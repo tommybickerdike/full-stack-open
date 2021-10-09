@@ -1,9 +1,9 @@
 import axios from "axios";
 const db = "http://localhost:3001/persons";
 
-const add = (nameObject, persons, setPersons) => {
+const add = (personObject, persons, setPersons) => {
 	axios
-		.post(db, nameObject)
+		.post(db, personObject)
 		.then((response) => {
 			setPersons(persons.concat(response.data));
 		})
@@ -31,10 +31,31 @@ const remove = (person, persons, setPersons) => {
 	}
 };
 
+const update = (updatePerson, persons, setPersons, newNumber) => {
+	if (
+		window.confirm(
+			`${updatePerson.name} is already in the phonebook, replace the old number with the new one?`
+		)
+	) {
+		updatePerson.number = newNumber;
+		const otherPersons = persons.filter((p) => p.id !== updatePerson.id);
+		const updatedPersons = otherPersons.concat(updatePerson);
+		axios
+			.put(`${db}/${updatePerson.id}`, updatePerson)
+			.then(() => {
+				setPersons(updatedPersons);
+			})
+			.catch((error) => {
+				console.log("Could not update", error);
+			});
+	}
+};
+
 const database = {
 	add,
 	get,
 	remove,
+	update,
 };
 
 export default database;
