@@ -1,14 +1,27 @@
 import axios from "axios";
 const db = "http://localhost:3001/persons";
 
-const add = (personObject, persons, setPersons) => {
+const add = (personObject, persons, setPersons, setNotification) => {
 	axios
 		.post(db, personObject)
 		.then((response) => {
 			setPersons(persons.concat(response.data));
+			setNotification({
+				message: `${personObject.name} was added`,
+				style: "good",
+			});
+			setTimeout(() => {
+				setNotification(null);
+			}, 5000);
 		})
 		.catch((error) => {
-			alert("Sorry, please try again");
+			setNotification({
+				message: error,
+				style: "bad",
+			});
+			setTimeout(() => {
+				setNotification(null);
+			}, 5000);
 		});
 };
 
@@ -31,7 +44,13 @@ const remove = (person, persons, setPersons) => {
 	}
 };
 
-const update = (updatePerson, persons, setPersons, newNumber) => {
+const update = (
+	updatePerson,
+	persons,
+	setPersons,
+	newNumber,
+	setNotification
+) => {
 	if (
 		window.confirm(
 			`${updatePerson.name} is already in the phonebook, replace the old number with the new one?`
@@ -44,9 +63,22 @@ const update = (updatePerson, persons, setPersons, newNumber) => {
 			.put(`${db}/${updatePerson.id}`, updatePerson)
 			.then(() => {
 				setPersons(updatedPersons);
+				setNotification({
+					message: `${updatePerson.name} was updated`,
+					style: "good",
+				});
+				setTimeout(() => {
+					setNotification(null);
+				}, 5000);
 			})
 			.catch((error) => {
-				console.log("Could not update", error);
+				setNotification({
+					message: error,
+					style: "bad",
+				});
+				setTimeout(() => {
+					setNotification(null);
+				}, 5000);
 			});
 	}
 };

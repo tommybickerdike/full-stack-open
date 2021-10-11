@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import Database from "../services/Database";
+import Notification from "./Notification";
 
 const PersonForm = ({ persons, setPersons }) => {
 	const [newName, setNewName] = useState("");
 	const [newNumber, setNewNumber] = useState("");
+	const [notification, setNotification] = useState(null);
 
 	const updateName = (event) => {
 		setNewName(event.target.value);
@@ -19,7 +21,19 @@ const PersonForm = ({ persons, setPersons }) => {
 	};
 
 	const addName = () => {
-		Database.add(personObject, persons, setPersons);
+		Database.add(personObject, persons, setPersons, setNotification);
+		setNewName("");
+		setNewNumber("");
+	};
+
+	const updateEntry = (updatePerson) => {
+		Database.update(
+			updatePerson,
+			persons,
+			setPersons,
+			newNumber,
+			setNotification
+		);
 		setNewName("");
 		setNewNumber("");
 	};
@@ -30,9 +44,7 @@ const PersonForm = ({ persons, setPersons }) => {
 		const currentList = persons.map((person) => person.name);
 		const updatePerson = persons.find((person) => person.name === newName);
 
-		currentList.includes(newName)
-			? Database.update(updatePerson, persons, setPersons, newNumber)
-			: addName();
+		currentList.includes(newName) ? updateEntry(updatePerson) : addName();
 	};
 
 	return (
@@ -44,6 +56,7 @@ const PersonForm = ({ persons, setPersons }) => {
 				number: <input value={newNumber} onChange={updateNumber} />
 			</div>
 			<button type="submit">add</button>
+			<Notification notification={notification} />
 		</form>
 	);
 };
