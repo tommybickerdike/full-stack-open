@@ -1,5 +1,5 @@
 import axios from "axios";
-const db = "http://localhost:3001/persons";
+const db = "http://localhost:3001/api/persons";
 
 const add = (personObject, persons, setPersons, setNotification) => {
 	axios
@@ -27,6 +27,7 @@ const add = (personObject, persons, setPersons, setNotification) => {
 
 const get = (setPersons) =>
 	axios.get(db).then((response) => {
+		console.log(response);
 		setPersons(response.data);
 	});
 
