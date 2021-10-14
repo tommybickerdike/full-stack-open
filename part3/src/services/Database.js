@@ -1,5 +1,5 @@
 import axios from "axios";
-const db = "http://localhost:3001/api/persons";
+const db = "https://fso-part3-phonebook-server.herokuapp.com/api/persons";
 
 const add = (personObject, persons, setPersons, setNotification) => {
 	axios
