@@ -27,7 +27,6 @@ const add = (personObject, persons, setPersons, setNotification) => {
 
 const get = (setPersons) =>
 	axios.get(db).then((response) => {
-		console.log(response);
 		setPersons(response.data);
 	});
 
