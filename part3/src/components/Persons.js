@@ -8,7 +8,7 @@ const Persons = ({ persons, filtered, setPersons, ...props }) => {
 	return (
 		<ul>
 			{filteredNames.map((person) => (
-				<li key={person.id}>
+				<li key={person._id}>
 					{person.name} {person.number}
 					<button onClick={() => Database.remove(person, persons, setPersons)}>
 						DELETE

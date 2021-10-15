@@ -33,9 +33,9 @@ const get = (setPersons) =>
 const remove = (person, persons, setPersons) => {
 	if (window.confirm(`Delete ${person.name}?`)) {
 		axios
-			.delete(`${db}/${person.id}`)
+			.delete(`${db}/${person._id}`)
 			.then(() => {
-				const newPersons = persons.filter((p) => p.id !== person.id);
+				const newPersons = persons.filter((p) => p._id !== person._id);
 				setPersons(newPersons);
 			})
 			.catch((error) => {
@@ -57,10 +57,10 @@ const update = (
 		)
 	) {
 		updatePerson.number = newNumber;
-		const otherPersons = persons.filter((p) => p.id !== updatePerson.id);
+		const otherPersons = persons.filter((p) => p._id !== updatePerson._id);
 		const updatedPersons = otherPersons.concat(updatePerson);
 		axios
-			.put(`${db}/${updatePerson.id}`, updatePerson)
+			.put(`${db}/${updatePerson._id}`, updatePerson)
 			.then(() => {
 				setPersons(updatedPersons);
 				setNotification({
