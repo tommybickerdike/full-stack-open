@@ -14,9 +14,9 @@ const add = (personObject, persons, setPersons, setNotification) => {
 				setNotification(null);
 			}, 5000);
 		})
-		.catch(() => {
+		.catch((error) => {
 			setNotification({
-				message: `${personObject.name} could not be added`,
+				message: error.response.data.message,
 				style: "bad",
 			});
 			setTimeout(() => {
@@ -71,9 +71,9 @@ const update = (
 					setNotification(null);
 				}, 5000);
 			})
-			.catch(() => {
+			.catch((error) => {
 				setNotification({
-					message: `${updatePerson.name} has already been deleted`,
+					message: error.response.data.message,
 					style: "bad",
 				});
 				setTimeout(() => {
