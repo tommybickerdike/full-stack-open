@@ -35,9 +35,26 @@ const mostBlogs = (blogs) => {
 	return authorCountArray.reduce(mostBlogs, { author: "", blogs: 0 });
 };
 
+const mostLikes = (blogs) => {
+	const favorite = favoriteBlog(blogs);
+
+	const favoriteAuthorsBlogs = blogs.filter(
+		(blog) => blog.author === favorite.author
+	);
+
+	const reducer = (sum, item) => {
+		return sum + item.likes;
+	};
+
+	const totalAuthorLikes = favoriteAuthorsBlogs.reduce(reducer, 0);
+
+	return { author: favorite.author, likes: totalAuthorLikes };
+};
+
 module.exports = {
 	dummy,
 	totalLikes,
 	favoriteBlog,
 	mostBlogs,
+	mostLikes,
 };
