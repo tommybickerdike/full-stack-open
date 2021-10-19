@@ -14,8 +14,8 @@ beforeEach(async () => {
 	}
 });
 
-describe("api calls", () => {
-	test("notes are returned as json", async () => {
+describe("general api calls", () => {
+	test("blogs are returned as json", async () => {
 		await api
 			.get("/api/blogs")
 			.expect(200)
@@ -37,9 +37,9 @@ describe("api calls", () => {
 			likes: 12,
 		};
 		await api.post("/api/blogs").send(postBlog).expect(201);
-		const notesAtEnd = await helper.blogsInDb();
-		expect(notesAtEnd).toHaveLength(helper.initialBlogs.length + 1);
-		expect(notesAtEnd.slice(-1)[0].title).toEqual(postBlog.title);
+		const blogsAtEnd = await helper.blogsInDb();
+		expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1);
+		expect(blogsAtEnd.slice(-1)[0].title).toEqual(postBlog.title);
 	});
 
 	test("default to 0 likes", async () => {
@@ -49,9 +49,9 @@ describe("api calls", () => {
 			url: "https://www.sasadadasd.com",
 		};
 		await api.post("/api/blogs").send(postBlog).expect(201);
-		const notesAtEnd = await helper.blogsInDb();
-		expect(notesAtEnd).toHaveLength(helper.initialBlogs.length + 1);
-		expect(notesAtEnd.slice(-1)[0].likes).toEqual(0);
+		const blogsAtEnd = await helper.blogsInDb();
+		expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1);
+		expect(blogsAtEnd.slice(-1)[0].likes).toEqual(0);
 	});
 
 	test("missing info post responds 400", async () => {
@@ -59,6 +59,22 @@ describe("api calls", () => {
 			author: "John Snow",
 		};
 		await api.post("/api/blogs").send(postBlog).expect(400);
+	}, 100000);
+});
+
+describe("api individual mutations", () => {
+	test("can delete an existing note", async () => {
+		const blogToDelete = new Blog(helper.initialBlogs[1]);
+		await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204);
+		const blogsAtEnd = await helper.blogsInDb();
+		expect(blogsAtEnd.length).toBe(helper.initialBlogs.length - 1);
+		const contents = blogsAtEnd.map((r) => r.id);
+		expect(contents).not.toContain(blogToDelete.id);
+	}, 100000);
+
+	test("can get an existing note", async () => {
+		const blogToGet = new Blog(helper.initialBlogs[1]);
+		await api.get(`/api/blogs/${blogToGet.id}`).expect(200);
 	}, 100000);
 });
 
