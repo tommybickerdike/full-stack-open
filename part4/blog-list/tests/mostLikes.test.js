@@ -1,5 +1,5 @@
 const listHelper = require("../utils/list_helper");
-const dummy = require("./dummyData");
+const helper = require("./test_helper");
 
 describe("total likes", () => {
 	const manyBlogResult = {
@@ -13,12 +13,12 @@ describe("total likes", () => {
 	};
 
 	test("find the author with the most likes from a list", () => {
-		const result = listHelper.mostLikes(dummy.listWithManyBlogs);
+		const result = listHelper.mostLikes(helper.initialBlogs);
 		expect(result).toEqual(manyBlogResult);
 	});
 
 	test("find a single author likes from a list of one", () => {
-		const result = listHelper.mostLikes(dummy.listWithOneBlog);
+		const result = listHelper.mostLikes(helper.listWithOneBlog);
 		expect(result).toEqual(singleBlogResult);
 	});
 });

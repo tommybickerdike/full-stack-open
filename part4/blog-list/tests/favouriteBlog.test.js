@@ -1,5 +1,5 @@
 const listHelper = require("../utils/list_helper");
-const dummy = require("./dummyData");
+const helper = require("./test_helper");
 
 describe("favorite blog", () => {
 	const mostLikedBlog = {
@@ -12,12 +12,12 @@ describe("favorite blog", () => {
 	};
 
 	test("if one in array, favoriteBlog finds self", () => {
-		const result = listHelper.favoriteBlog(dummy.listWithOneBlog);
-		expect(result).toEqual(dummy.listWithOneBlog[0]);
+		const result = listHelper.favoriteBlog(helper.listWithOneBlog);
+		expect(result).toEqual(helper.listWithOneBlog[0]);
 	});
 
 	test("favoriteBlog can find the most liked blog from long list", () => {
-		const result = listHelper.favoriteBlog(dummy.listWithManyBlogs);
+		const result = listHelper.favoriteBlog(helper.initialBlogs);
 		expect(result).toEqual(mostLikedBlog);
 	});
 });
