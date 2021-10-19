@@ -41,6 +41,18 @@ describe("api calls", () => {
 		expect(notesAtEnd).toHaveLength(helper.initialBlogs.length + 1);
 		expect(notesAtEnd.slice(-1)[0].title).toEqual(postBlog.title);
 	});
+
+	test("default to 0 likes", async () => {
+		const postBlog = {
+			title: "New One",
+			author: "John Snow",
+			url: "https://www.sasadadasd.com",
+		};
+		await api.post("/api/blogs").send(postBlog).expect(201);
+		const notesAtEnd = await helper.blogsInDb();
+		expect(notesAtEnd).toHaveLength(helper.initialBlogs.length + 1);
+		expect(notesAtEnd.slice(-1)[0].likes).toEqual(0);
+	});
 });
 
 afterAll(() => {
