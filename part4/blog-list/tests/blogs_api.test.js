@@ -21,6 +21,13 @@ describe("api calls", () => {
 			.expect(200)
 			.expect("Content-Type", /application\/json/);
 	}, 100000);
+
+	test("_id converted to id", async () => {
+		const response = await api.get("/api/blogs");
+		const contents = response.body;
+		expect(contents[0].id).toBeDefined();
+		expect(contents[0]._id).not.toBeDefined();
+	});
 });
 
 afterAll(() => {
