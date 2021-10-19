@@ -20,7 +20,7 @@ describe("general api calls", () => {
 			.get("/api/blogs")
 			.expect(200)
 			.expect("Content-Type", /application\/json/);
-	}, 100000);
+	}, 1500);
 
 	test("_id converted to id", async () => {
 		const response = await api.get("/api/blogs");
@@ -59,7 +59,7 @@ describe("general api calls", () => {
 			author: "John Snow",
 		};
 		await api.post("/api/blogs").send(postBlog).expect(400);
-	}, 100000);
+	});
 });
 
 describe("api individual mutations", () => {
@@ -70,12 +70,24 @@ describe("api individual mutations", () => {
 		expect(blogsAtEnd.length).toBe(helper.initialBlogs.length - 1);
 		const contents = blogsAtEnd.map((r) => r.id);
 		expect(contents).not.toContain(blogToDelete.id);
-	}, 100000);
+	}, 500);
 
 	test("can get an existing note", async () => {
 		const blogToGet = new Blog(helper.initialBlogs[1]);
 		await api.get(`/api/blogs/${blogToGet.id}`).expect(200);
-	}, 100000);
+	});
+
+	test("can update an existing note", async () => {
+		const blogToUpdate = new Blog(helper.initialBlogs[2]);
+		const newLikes = 22;
+		await api
+			.put(`/api/blogs/${blogToUpdate.id}`)
+			.send({ likes: newLikes })
+			.expect(200);
+		const blogsAtEnd = await helper.blogsInDb();
+		const blogAtEnd = blogsAtEnd.find((blog) => blog.id === blogToUpdate.id);
+		expect(blogAtEnd.likes).toBe(newLikes);
+	});
 });
 
 afterAll(() => {
