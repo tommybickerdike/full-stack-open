@@ -53,6 +53,13 @@ describe("api calls", () => {
 		expect(notesAtEnd).toHaveLength(helper.initialBlogs.length + 1);
 		expect(notesAtEnd.slice(-1)[0].likes).toEqual(0);
 	});
+
+	test("missing info post responds 400", async () => {
+		const postBlog = {
+			author: "John Snow",
+		};
+		await api.post("/api/blogs").send(postBlog).expect(400);
+	}, 100000);
 });
 
 afterAll(() => {
