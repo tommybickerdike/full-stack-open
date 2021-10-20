@@ -14,7 +14,7 @@ beforeEach(async () => {
 	}
 });
 
-describe("general api calls", () => {
+describe("general blog api calls", () => {
 	test("blogs are returned as json", async () => {
 		await api
 			.get("/api/blogs")
@@ -62,7 +62,7 @@ describe("general api calls", () => {
 	});
 });
 
-describe("api individual mutations", () => {
+describe("api blog individual mutations", () => {
 	test("can delete an existing note", async () => {
 		const blogToDelete = new Blog(helper.initialBlogs[1]);
 		await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204);
