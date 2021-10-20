@@ -10,9 +10,9 @@ usersRouter.get("/", async (request, response) => {
 usersRouter.post("/", async (request, response) => {
 	const body = request.body;
 
-	if (!body.password) {
+	if (!body.password || body.password.length < 3) {
 		return response.status(400).json({
-			error: "password not supplied",
+			error: "password not supplied or too short",
 		});
 	}
 
