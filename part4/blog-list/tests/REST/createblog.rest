@@ -1,6 +1,6 @@
 POST http://localhost:3000/api/blogs
 content-type: application/json
-authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNvbWVvbmVlbHNlIiwiaWQiOiI2MTcwNDI2NmE0ZWU3NjM2NWE4OGJhYmUiLCJpYXQiOjE2MzQ3NDY5OTJ9.x2ejgbR9DcmoexdZ-QCW1udTUQPRPQD1kTilG9VEaT0
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNvbWVvbmVlbHNlIiwiaWQiOiI2MTcwNDI2NmE0ZWU3NjM2NWE4OGJhYmUiLCJpYXQiOjE2MzQ4MTMxMzl9.iucGnJa0IfuMMpeXEHvHdehCxYnGmrKGTIc8ROcVObY
 
 {
 		"title": "Middle Test",
