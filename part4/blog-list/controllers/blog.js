@@ -8,7 +8,12 @@ blogsRouter.get("/", async (request, response) => {
 });
 
 blogsRouter.post("/", async (request, response) => {
+	if (!request.user) {
+		return response.status(403).json({ error: "user does not exist" }).end();
+	}
+
 	const user = await User.findById(request.user);
+
 	const blog = new Blog({
 		title: request.body.title,
 		author: request.body.author,
@@ -39,7 +44,7 @@ blogsRouter.delete("/:id", async (request, response) => {
 		return response.status(204).end();
 	}
 
-	return response.status(401).json({ error: "token missing or invalid" });
+	return response.status(403).json({ error: "token missing or invalid" });
 });
 
 blogsRouter.put("/:id", async (request, response) => {
