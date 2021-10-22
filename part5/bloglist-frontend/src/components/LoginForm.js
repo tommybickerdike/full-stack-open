@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import loginService from "../services/login";
 
-const LoginForm = ({ user, setUser }) => {
+const LoginForm = ({ setUser }) => {
 	const handleLogin = async (event) => {
 		event.preventDefault();
 		try {
 			const user = await loginService.login(username, password);
 			setUser(user);
+			window.localStorage.setItem("user", JSON.stringify(user));
 			setUsername("");
 			setPassword("");
 		} catch (exception) {
@@ -23,19 +24,21 @@ const LoginForm = ({ user, setUser }) => {
 	return (
 		<form onSubmit={handleLogin}>
 			<div>
-				<label for="username">User Name</label>
+				<label htmlFor="username">User Name</label>
 				<input
 					id="username"
 					type="text"
+					autoComplete="username"
 					value={username}
 					name="Username"
 					onChange={({ target }) => setUsername(target.value)}
 				/>
 			</div>
-			<label for="password">Password</label>
+			<label htmlFor="password">Password</label>
 			<input
 				id="password"
 				type="password"
+				autoComplete="current-password"
 				value={password}
 				name="Password"
 				onChange={({ target }) => setPassword(target.value)}
