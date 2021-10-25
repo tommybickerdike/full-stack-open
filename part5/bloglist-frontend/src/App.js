@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Blog from "./components/Blog";
 import LoginForm from "./components/LoginForm";
+import AddBlogForm from "./components/AddBlogForm";
 import UserInfo from "./components/UserInfo";
 import blogService from "./services/blogs";
 import userService from "./services/user";
@@ -22,6 +23,7 @@ const App = () => {
 				<div>
 					<h2>blogs</h2>
 					<UserInfo user={user} setUser={setUser} />
+					<AddBlogForm blogs={blogs} setBlogs={setBlogs} />
 					{blogs.map((blog) => (
 						<Blog key={blog.id} blog={blog} />
 					))}

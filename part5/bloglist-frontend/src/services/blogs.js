@@ -10,8 +10,27 @@ const getAll = async () => {
 	}
 };
 
+const addNew = async (title, author, url) => {
+	const user = JSON.parse(window.localStorage.getItem("user"));
+
+	const data = {
+		title: title,
+		author: author,
+		url: url,
+	};
+
+	const headers = { Authorization: `bearer ${user.token}` };
+	const response = await axios.post(baseUrl, data, { headers: headers });
+	try {
+		return response.data;
+	} catch {
+		return response.data;
+	}
+};
+
 const exports = {
 	getAll,
+	addNew,
 };
 
 export default exports;
