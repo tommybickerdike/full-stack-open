@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import blogService from "../services/blogs";
 
-const AddBlog = ({ blogs, setBlogs }) => {
+const AddBlog = ({ blogs, setBlogs, setNotification }) => {
 	const [title, setTitle] = useState([]);
 	const [author, setAuthor] = useState([]);
 	const [url, setUrl] = useState([]);
-	const [errorMessage, setErrorMessage] = useState([]);
 
 	const handleAdd = async (event) => {
 		event.preventDefault();
@@ -14,14 +13,15 @@ const AddBlog = ({ blogs, setBlogs }) => {
 			const newBlog = await blogService.addNew(title, author, url);
 			const newBlogs = blogs.concat(newBlog);
 			setBlogs(newBlogs);
+			setNotification({
+				message: `A new blog: "${title}" by ${author} added`,
+				style: "good",
+			});
 			setTitle("");
 			setAuthor("");
 			setUrl("");
 		} catch (exception) {
-			setErrorMessage("could not add blog");
-			setTimeout(() => {
-				setErrorMessage(null);
-			}, 5000);
+			setNotification({ message: "could not add blog", style: "bad" });
 		}
 	};
 
@@ -58,7 +58,6 @@ const AddBlog = ({ blogs, setBlogs }) => {
 				/>
 			</div>
 			<button type="submit">create</button>
-			{errorMessage ? <div>{errorMessage}</div> : ""}
 		</form>
 	);
 };

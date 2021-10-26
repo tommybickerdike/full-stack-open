@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import loginService from "../services/login";
 
-const LoginForm = ({ setUser }) => {
+const LoginForm = ({ setUser, setNotification }) => {
 	const handleLogin = async (event) => {
 		event.preventDefault();
 		try {
@@ -11,15 +11,11 @@ const LoginForm = ({ setUser }) => {
 			setUsername("");
 			setPassword("");
 		} catch (exception) {
-			setErrorMessage("wrong credentials");
-			setTimeout(() => {
-				setErrorMessage(null);
-			}, 5000);
+			setNotification({ message: "wrong username or password", style: "bad" });
 		}
 	};
 	const [username, setUsername] = useState([]);
 	const [password, setPassword] = useState([]);
-	const [errorMessage, setErrorMessage] = useState([]);
 
 	return (
 		<form onSubmit={handleLogin}>
@@ -44,7 +40,6 @@ const LoginForm = ({ setUser }) => {
 				onChange={({ target }) => setPassword(target.value)}
 			/>
 			<button type="submit">login</button>
-			{errorMessage ? <div>{errorMessage}</div> : ""}
 		</form>
 	);
 };
