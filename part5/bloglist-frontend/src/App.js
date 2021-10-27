@@ -14,6 +14,16 @@ const App = () => {
 	const [notification, setNotification] = useState(null);
 	const blogFormRef = useRef();
 
+	const sortedByLike = blogs.sort(function (a, b) {
+		if (a.likes < b.likes) {
+			return 1;
+		}
+		if (a.likes > b.likes) {
+			return -1;
+		}
+		return 0;
+	});
+
 	useEffect(() => {
 		blogService.getAll().then((blogs) => setBlogs(blogs));
 		userService.getUser().then((user) => setUser(user));
@@ -45,7 +55,7 @@ const App = () => {
 							setNotification={setNotification}
 						/>
 					</Toggle>
-					{blogs.map((blog) => (
+					{sortedByLike.map((blog) => (
 						<Blog key={blog.id} blog={blog} setNotification={setNotification} />
 					))}
 				</div>
