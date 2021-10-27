@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import blogService from "../services/blogs";
 
-const AddBlog = ({ blogs, setBlogs, setNotification }) => {
+const AddBlog = ({ blogs, setBlogs, setNotification, toggleRef }) => {
 	const [title, setTitle] = useState([]);
 	const [author, setAuthor] = useState([]);
 	const [url, setUrl] = useState([]);
@@ -20,6 +20,7 @@ const AddBlog = ({ blogs, setBlogs, setNotification }) => {
 			setTitle("");
 			setAuthor("");
 			setUrl("");
+			toggleRef.current.toggleVisibility();
 		} catch (exception) {
 			setNotification({ message: "could not add blog", style: "bad" });
 		}

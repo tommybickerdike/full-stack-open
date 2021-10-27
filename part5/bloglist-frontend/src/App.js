@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Blog from "./components/Blog";
 import LoginForm from "./components/LoginForm";
 import AddBlogForm from "./components/AddBlogForm";
 import Notification from "./components/Notification";
 import UserInfo from "./components/UserInfo";
+import Toggle from "./components/Toggle";
 import blogService from "./services/blogs";
 import userService from "./services/user";
 
@@ -11,6 +12,7 @@ const App = () => {
 	const [user, setUser] = useState(null);
 	const [blogs, setBlogs] = useState([]);
 	const [notification, setNotification] = useState(null);
+	const blogFormRef = useRef();
 
 	useEffect(() => {
 		blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -24,7 +26,9 @@ const App = () => {
 				setNotification={setNotification}
 			/>
 			{user === null ? (
-				<LoginForm setUser={setUser} setNotification={setNotification} />
+				<Toggle buttonLabel="Login">
+					<LoginForm setUser={setUser} setNotification={setNotification} />
+				</Toggle>
 			) : (
 				<div>
 					<h2>blogs</h2>
@@ -33,11 +37,14 @@ const App = () => {
 						setUser={setUser}
 						setNotification={setNotification}
 					/>
-					<AddBlogForm
-						blogs={blogs}
-						setBlogs={setBlogs}
-						setNotification={setNotification}
-					/>
+					<Toggle buttonLabel="Create new blog" ref={blogFormRef}>
+						<AddBlogForm
+							toggleRef={blogFormRef}
+							blogs={blogs}
+							setBlogs={setBlogs}
+							setNotification={setNotification}
+						/>
+					</Toggle>
 					{blogs.map((blog) => (
 						<Blog key={blog.id} blog={blog} />
 					))}
