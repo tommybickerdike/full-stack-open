@@ -50,10 +50,25 @@ const like = async (blog, likes) => {
 	}
 };
 
+const remove = async (blog) => {
+	const user = JSON.parse(window.localStorage.getItem("user"));
+	const blogURL = `${baseUrl}/${blog.id}`;
+
+	const headers = { Authorization: `bearer ${user.token}` };
+	const response = await axios.delete(blogURL, { headers: headers });
+
+	try {
+		return response.data;
+	} catch {
+		return response.data;
+	}
+};
+
 const exports = {
 	getAll,
 	addNew,
 	like,
+	remove,
 };
 
 export default exports;

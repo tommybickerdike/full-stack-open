@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import blogService from "../services/blogs";
 
-const Blog = ({ blog, setNotification }) => {
+const Blog = ({ blog, setNotification, user }) => {
 	const [visible, setVisible] = useState(false);
+	const [removed, setRemoved] = useState(false);
 	const [likes, setLikes] = useState(blog.likes);
 
 	const blogStyle = {
@@ -25,6 +26,21 @@ const Blog = ({ blog, setNotification }) => {
 		}
 	};
 
+	const handleRemove = async () => {
+		try {
+			if (
+				window.confirm(
+					`Do you really want to remove ${blog.title} by ${blog.author}?`
+				)
+			) {
+				await blogService.remove(blog);
+				setRemoved(true);
+			}
+		} catch (exception) {
+			setNotification({ message: "could not remove", style: "bad" });
+		}
+	};
+
 	const detailsStyle = {
 		clear: "both",
 		paddingTop: "1rem",
@@ -32,6 +48,11 @@ const Blog = ({ blog, setNotification }) => {
 		marginTop: "1rem",
 	};
 
+	const showWhenUser = {
+		display: blog.user.username === user.username ? "" : "none",
+	};
+
+	const hideWhenRemoved = { display: removed ? "none" : "" };
 	const hideWhenVisible = { display: visible ? "none" : "" };
 	const showWhenVisible = { display: visible ? "" : "none" };
 
@@ -40,8 +61,8 @@ const Blog = ({ blog, setNotification }) => {
 	};
 
 	return (
-		<div style={blogStyle}>
-			{blog.title} {blog.author}
+		<div style={{ ...blogStyle, ...hideWhenRemoved }}>
+			{blog.title}, {blog.author}
 			<button style={{ ...hideWhenVisible, ...buttonStyle }} onClick={toggle}>
 				View
 			</button>
@@ -55,6 +76,10 @@ const Blog = ({ blog, setNotification }) => {
 				</p>
 
 				<p>{blog.user.name}</p>
+
+				<button style={showWhenUser} onClick={handleRemove}>
+					remove
+				</button>
 			</div>
 		</div>
 	);
