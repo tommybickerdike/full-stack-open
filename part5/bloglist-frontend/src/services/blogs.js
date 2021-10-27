@@ -28,9 +28,32 @@ const addNew = async (title, author, url) => {
 	}
 };
 
+const like = async (blog, likes) => {
+	const user = JSON.parse(window.localStorage.getItem("user"));
+	const blogURL = `${baseUrl}/${blog.id}`;
+	const increment = likes + 1;
+
+	const data = {
+		author: blog.author,
+		title: blog.title,
+		url: blog.url,
+		likes: increment,
+	};
+
+	const headers = { Authorization: `bearer ${user.token}` };
+	const response = await axios.put(blogURL, data, { headers: headers });
+
+	try {
+		return response.data;
+	} catch {
+		return response.data;
+	}
+};
+
 const exports = {
 	getAll,
 	addNew,
+	like,
 };
 
 export default exports;

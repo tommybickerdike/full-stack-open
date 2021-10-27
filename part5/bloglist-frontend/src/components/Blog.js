@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import blogService from "../services/blogs";
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, setNotification }) => {
 	const [visible, setVisible] = useState(false);
+	const [likes, setLikes] = useState(blog.likes);
 
 	const blogStyle = {
 		padding: "1rem",
@@ -12,6 +14,15 @@ const Blog = ({ blog }) => {
 
 	const buttonStyle = {
 		float: "right",
+	};
+
+	const handleLike = async () => {
+		try {
+			const updatedBlog = await blogService.like(blog, likes);
+			setLikes(updatedBlog.likes);
+		} catch (exception) {
+			setNotification({ message: "could not like", style: "bad" });
+		}
 	};
 
 	const detailsStyle = {
@@ -40,7 +51,7 @@ const Blog = ({ blog }) => {
 			<div style={{ ...showWhenVisible, ...detailsStyle }}>
 				<p>{blog.url}</p>
 				<p>
-					Likes {blog.likes} <button>Like</button>
+					Likes {likes} <button onClick={handleLike}>Like</button>
 				</p>
 
 				<p>{blog.user.name}</p>
