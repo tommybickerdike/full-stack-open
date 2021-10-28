@@ -1,9 +1,12 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const logout = (setUser, setNotification) => {
 	window.localStorage.removeItem("user");
 	setUser(null);
-	setNotification({ message: "logged out", style: "good" });
+	if (setNotification) {
+		setNotification({ message: "logged out", style: "good" });
+	}
 };
 
 const UserInfo = ({ user, setUser, setNotification }) => (
@@ -12,5 +15,11 @@ const UserInfo = ({ user, setUser, setNotification }) => (
 		<button onClick={() => logout(setUser, setNotification)}>Logout</button>
 	</div>
 );
+
+UserInfo.propTypes = {
+	user: PropTypes.object.isRequired,
+	setUser: PropTypes.func.isRequired,
+	setNotification: PropTypes.func,
+};
 
 export default UserInfo;

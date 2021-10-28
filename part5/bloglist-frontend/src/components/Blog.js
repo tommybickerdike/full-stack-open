@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import blogService from "../services/blogs";
+import PropTypes from "prop-types";
 
 const Blog = ({ blog, setNotification, user }) => {
 	const [visible, setVisible] = useState(false);
@@ -22,7 +23,9 @@ const Blog = ({ blog, setNotification, user }) => {
 			const updatedBlog = await blogService.like(blog, likes);
 			setLikes(updatedBlog.likes);
 		} catch (exception) {
-			setNotification({ message: "could not like", style: "bad" });
+			if (setNotification) {
+				setNotification({ message: "could not like", style: "bad" });
+			}
 		}
 	};
 
@@ -83,6 +86,12 @@ const Blog = ({ blog, setNotification, user }) => {
 			</div>
 		</div>
 	);
+};
+
+Blog.propTypes = {
+	blog: PropTypes.array.isRequired,
+	setNotification: PropTypes.func,
+	user: PropTypes.object.isRequired,
 };
 
 export default Blog;

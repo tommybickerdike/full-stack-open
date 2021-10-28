@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import loginService from "../services/login";
+import PropTypes from "prop-types";
 
 const LoginForm = ({ setUser, setNotification }) => {
 	const handleLogin = async (event) => {
@@ -11,7 +12,12 @@ const LoginForm = ({ setUser, setNotification }) => {
 			setUsername("");
 			setPassword("");
 		} catch (exception) {
-			setNotification({ message: "wrong username or password", style: "bad" });
+			if (setNotification) {
+				setNotification({
+					message: "wrong username or password",
+					style: "bad",
+				});
+			}
 		}
 	};
 	const [username, setUsername] = useState([]);
@@ -42,6 +48,11 @@ const LoginForm = ({ setUser, setNotification }) => {
 			<button type="submit">login</button>
 		</form>
 	);
+};
+
+LoginForm.propTypes = {
+	setUser: PropTypes.func.isRequired,
+	setNotification: PropTypes.func,
 };
 
 export default LoginForm;
