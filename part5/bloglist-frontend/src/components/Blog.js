@@ -72,7 +72,10 @@ const Blog = ({ blog, setNotification, user }) => {
 			<button style={{ ...showWhenVisible, ...buttonStyle }} onClick={toggle}>
 				Hide
 			</button>
-			<div style={{ ...showWhenVisible, ...detailsStyle }}>
+			<div
+				className="blog__toggle-content"
+				style={{ ...showWhenVisible, ...detailsStyle }}
+			>
 				<p>{blog.url}</p>
 				<p>
 					Likes {likes} <button onClick={handleLike}>Like</button>
@@ -89,7 +92,7 @@ const Blog = ({ blog, setNotification, user }) => {
 };
 
 Blog.propTypes = {
-	blog: PropTypes.array.isRequired,
+	blog: PropTypes.object.isRequired,
 	setNotification: PropTypes.func,
 	user: PropTypes.object.isRequired,
 };
