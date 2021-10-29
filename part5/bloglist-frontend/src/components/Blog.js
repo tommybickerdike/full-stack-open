@@ -55,9 +55,9 @@ const Blog = ({ blog, setNotification, user }) => {
 		display: blog.user.username === user.username ? "" : "none",
 	};
 
-	const hideWhenRemoved = { display: removed ? "none" : "" };
-	const hideWhenVisible = { display: visible ? "none" : "" };
-	const showWhenVisible = { display: visible ? "" : "none" };
+	const hideWhenRemoved = { display: removed ? "none" : "block" };
+	const hideWhenVisible = { display: visible ? "none" : "block" };
+	const showWhenVisible = { display: visible ? "block" : "none" };
 
 	const toggle = () => {
 		setVisible(!visible);
@@ -66,7 +66,11 @@ const Blog = ({ blog, setNotification, user }) => {
 	return (
 		<div style={{ ...blogStyle, ...hideWhenRemoved }}>
 			{blog.title}, {blog.author}
-			<button style={{ ...hideWhenVisible, ...buttonStyle }} onClick={toggle}>
+			<button
+				data-testid="blog__toggle-init"
+				style={{ ...hideWhenVisible, ...buttonStyle }}
+				onClick={toggle}
+			>
 				View
 			</button>
 			<button style={{ ...showWhenVisible, ...buttonStyle }} onClick={toggle}>
@@ -78,7 +82,10 @@ const Blog = ({ blog, setNotification, user }) => {
 			>
 				<p>{blog.url}</p>
 				<p>
-					Likes {likes} <button onClick={handleLike}>Like</button>
+					Likes {likes}{" "}
+					<button onClick={handleLike} data-testid="blog__like-button">
+						Like
+					</button>
 				</p>
 
 				<p>{blog.user.name}</p>
