@@ -52,7 +52,7 @@ const Blog = ({ blog, setNotification, user }) => {
 	};
 
 	const showWhenUser = {
-		display: blog.user.username === user.username ? "" : "none",
+		display: blog.user.username === user.username ? "block" : "none",
 	};
 
 	const hideWhenRemoved = { display: removed ? "none" : "block" };

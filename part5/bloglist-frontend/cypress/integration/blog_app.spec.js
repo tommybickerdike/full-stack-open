@@ -1,6 +1,6 @@
 describe("Blog app", function () {
 	beforeEach(function () {
-		//Run before all tests
+		//Create user before all tests
 		cy.request("POST", "http://localhost:3003/api/testing/reset");
 		const user = {
 			name: "Matti Luukkainen",
@@ -41,25 +41,80 @@ describe("Blog app", function () {
 	});
 
 	describe("When logged in", function () {
-		// run before "when logged in tests"
+		// login before
 		beforeEach(function () {
 			cy.request("POST", "http://localhost:3003/api/login", {
 				username: "mluukkai",
 				password: "salainen",
 			}).then((response) => {
-				window.localStorage.setItem("user", JSON.stringify(response.body));
+				localStorage.setItem("user", JSON.stringify(response.body));
 				cy.visit("http://localhost:3000");
 			});
 		});
 
-		it("A blog can be created", function () {
-			cy.contains("Create new blog").click();
-			cy.get("#title").type("Title of blog");
-			cy.get("#author").type("Joe Bloggs");
-			cy.get("#url").type("https//www.example.com");
-			cy.contains("create").click();
-			cy.get("#blogs").should("contain", "Title of blog");
-			cy.get("#notification").should("contain", "added");
+		describe("and own blog exists", function () {
+			beforeEach(function () {
+				cy.contains("Create new blog").click();
+				cy.get("#title").type("Title of blog");
+				cy.get("#author").type("Joe Bloggs");
+				cy.get("#url").type("https//www.example.com");
+				cy.contains("create").click();
+			});
+
+			it("blog is created", function () {
+				cy.get("#blogs").should("contain", "Title of blog");
+				cy.get("#notification").should("contain", "added");
+			});
+
+			it("blog can be liked", function () {
+				cy.contains("View").click();
+				cy.contains("Like").click();
+				cy.contains("Like").click();
+				cy.get(".blog__toggle-content").should("contain", "Likes 2");
+			});
+
+			it("blog can be deleted", function () {
+				cy.visit("http://localhost:3000");
+				cy.contains("View").click();
+				cy.contains("remove").click();
+			});
+		});
+
+		describe("and someone elses blog exists", function () {
+			beforeEach(function () {
+				cy.contains("Create new blog").click();
+				cy.get("#title").type("Title of blog");
+				cy.get("#author").type("Joe Bloggs");
+				cy.get("#url").type("https//www.example.com");
+				cy.contains("create").click();
+				cy.contains("Logout").click();
+				const user = {
+					name: "Someone Else",
+					username: "someone",
+					password: "else",
+				};
+				cy.request("POST", "http://localhost:3003/api/users/", user);
+				cy.visit("http://localhost:3000");
+				cy.request("POST", "http://localhost:3003/api/login", {
+					username: "someone",
+					password: "else",
+				}).then((response) => {
+					window.localStorage.setItem("user", JSON.stringify(response.body));
+					cy.visit("http://localhost:3000");
+				});
+			});
+
+			it("blog can be liked", function () {
+				cy.contains("View").click();
+				cy.contains("Like").click();
+				cy.contains("Like").click();
+				cy.get(".blog__toggle-content").should("contain", "Likes 2");
+			});
+
+			it("blog cannot be deleted", function () {
+				cy.contains("View").click();
+				cy.get(".blog__toggle-content").should("not.contain", "Delete");
+			});
 		});
 	});
 });
