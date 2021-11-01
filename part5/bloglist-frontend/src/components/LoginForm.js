@@ -45,7 +45,9 @@ const LoginForm = ({ setUser, setNotification }) => {
 				name="Password"
 				onChange={({ target }) => setPassword(target.value)}
 			/>
-			<button type="submit">login</button>
+			<button type="submit" id="login-button">
+				Login
+			</button>
 		</form>
 	);
 };

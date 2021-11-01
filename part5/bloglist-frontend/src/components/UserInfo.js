@@ -11,7 +11,7 @@ const logout = (setUser, setNotification) => {
 
 const UserInfo = ({ user, setUser, setNotification }) => (
 	<div>
-		<p>{user.name} logged-in</p>
+		<p>{user.name} logged in</p>
 		<button onClick={() => logout(setUser, setNotification)}>Logout</button>
 	</div>
 );

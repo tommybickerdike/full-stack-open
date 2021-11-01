@@ -25,7 +25,10 @@ const Notification = ({ notification, setNotification }) => {
 	};
 
 	return notification === null ? null : (
-		<div style={notification.style === "good" ? goodStyle : badStyle}>
+		<div
+			id="notification"
+			style={notification.style === "good" ? goodStyle : badStyle}
+		>
 			{notification.message}
 		</div>
 	);
