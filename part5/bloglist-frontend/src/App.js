@@ -55,14 +55,16 @@ const App = () => {
 							setNotification={setNotification}
 						/>
 					</Toggle>
-					{sortedByLike.map((blog) => (
-						<Blog
-							key={blog.id}
-							blog={blog}
-							setNotification={setNotification}
-							user={user}
-						/>
-					))}
+					<div id="blogs">
+						{sortedByLike.map((blog) => (
+							<Blog
+								key={blog.id}
+								blog={blog}
+								setNotification={setNotification}
+								user={user}
+							/>
+						))}
+					</div>
 				</div>
 			)}
 		</main>

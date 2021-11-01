@@ -1,5 +1,6 @@
 describe("Blog app", function () {
 	beforeEach(function () {
+		//Run before all tests
 		cy.request("POST", "http://localhost:3003/api/testing/reset");
 		const user = {
 			name: "Matti Luukkainen",
@@ -36,6 +37,29 @@ describe("Blog app", function () {
 				.should("contain", "wrong username or password")
 				.and("have.css", "background-color", "rgb(255, 0, 0)")
 				.and("not.contain", "logged in");
+		});
+	});
+
+	describe("When logged in", function () {
+		// run before "when logged in tests"
+		beforeEach(function () {
+			cy.request("POST", "http://localhost:3003/api/login", {
+				username: "mluukkai",
+				password: "salainen",
+			}).then((response) => {
+				window.localStorage.setItem("user", JSON.stringify(response.body));
+				cy.visit("http://localhost:3000");
+			});
+		});
+
+		it("A blog can be created", function () {
+			cy.contains("Create new blog").click();
+			cy.get("#title").type("Title of blog");
+			cy.get("#author").type("Joe Bloggs");
+			cy.get("#url").type("https//www.example.com");
+			cy.contains("create").click();
+			cy.get("#blogs").should("contain", "Title of blog");
+			cy.get("#notification").should("contain", "added");
 		});
 	});
 });
