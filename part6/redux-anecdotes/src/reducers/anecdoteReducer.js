@@ -35,7 +35,7 @@ const reducer = (state = initialState, action) => {
 			);
 			return updatedAnecdotes.sort((a, b) => b.votes - a.votes);
 		case "ADD":
-			return [...state, action.data.id];
+			return [...state, action.data];
 		default:
 			return state;
 	}
