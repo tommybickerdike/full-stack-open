@@ -3,10 +3,12 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { Provider } from "react-redux";
 import anecdoteReducer from "./reducers/anecdoteReducer";
 import notificationReducer from "./reducers/notificationReducer";
+import filterReducer from "./reducers/filterReducer";
 
 const reducer = combineReducers({
-	anecdote: anecdoteReducer,
+	anecdotes: anecdoteReducer,
 	notification: notificationReducer,
+	filter: filterReducer,
 });
 
 const Store = (props) => {
