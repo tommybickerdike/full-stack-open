@@ -1,12 +1,11 @@
-import { useEffect } from "react";
-import { createStore, combineReducers } from "redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { Provider } from "react-redux";
 
-import anecdoteReducer, { initialize } from "./reducers/anecdoteReducer";
+import anecdoteReducer from "./reducers/anecdoteReducer";
 import notificationReducer from "./reducers/notificationReducer";
 import filterReducer from "./reducers/filterReducer";
-import anecdoteService from "./services/anecdotes";
 
 const reducer = combineReducers({
 	anecdotes: anecdoteReducer,
@@ -15,13 +14,10 @@ const reducer = combineReducers({
 });
 
 const Store = (props) => {
-	const store = createStore(reducer, composeWithDevTools());
-
-	useEffect(() => {
-		anecdoteService
-			.getAll()
-			.then((anecdotes) => store.dispatch(initialize(anecdotes)));
-	}, []);
+	const store = createStore(
+		reducer,
+		composeWithDevTools(applyMiddleware(thunk))
+	);
 
 	return <Provider store={store}>{props.children}</Provider>;
 };
