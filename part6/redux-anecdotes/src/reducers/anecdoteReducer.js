@@ -3,19 +3,15 @@ import anecdoteService from "../services/anecdotes";
 const reducer = (state = [], action) => {
 	switch (action.type) {
 		case "VOTE":
-			const anecdoteToChange = state.find((n) => n.id === action.data.id);
-			const changedAnecdote = {
-				...anecdoteToChange,
-				votes: anecdoteToChange.votes + 1,
-			};
 			const updatedAnecdotes = state.map((anecdote) =>
-				anecdote.id !== action.data.id ? anecdote : changedAnecdote
+				anecdote.id !== action.data.id ? anecdote : action.data
 			);
 			return updatedAnecdotes.sort((a, b) => b.votes - a.votes);
 		case "ADD":
 			return [...state, action.data];
 		case "INIT":
-			return action.data;
+			const initAnecdotes = action.data;
+			return initAnecdotes.sort((a, b) => b.votes - a.votes);
 		default:
 			return state;
 	}
@@ -32,7 +28,19 @@ export const createAnecdote = (content) => {
 };
 
 export const vote = (id) => {
-	return { type: "VOTE", data: { id } };
+	return async (dispatch) => {
+		const anecdotes = await anecdoteService.getAll();
+		const anecdoteToChange = anecdotes.find((a) => a.id === id);
+		const changedAnecdote = {
+			...anecdoteToChange,
+			votes: anecdoteToChange.votes + 1,
+		};
+		const updated = await anecdoteService.update(id, changedAnecdote);
+		dispatch({
+			type: "VOTE",
+			data: updated,
+		});
+	};
 };
 
 export const initialize = () => {
