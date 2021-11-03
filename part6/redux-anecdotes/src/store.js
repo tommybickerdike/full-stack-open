@@ -1,9 +1,10 @@
 import { createStore, combineReducers } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { Provider } from "react-redux";
-import anecdoteReducer from "./reducers/anecdoteReducer";
+import anecdoteReducer, { initialize } from "./reducers/anecdoteReducer";
 import notificationReducer from "./reducers/notificationReducer";
 import filterReducer from "./reducers/filterReducer";
+import anecdoteService from "./services/anecdotes";
 
 const reducer = combineReducers({
 	anecdotes: anecdoteReducer,
@@ -13,6 +14,10 @@ const reducer = combineReducers({
 
 const Store = (props) => {
 	const store = createStore(reducer, composeWithDevTools());
+
+	anecdoteService
+		.getAll()
+		.then((anecdotes) => store.dispatch(initialize(anecdotes)));
 
 	return <Provider store={store}>{props.children}</Provider>;
 };
