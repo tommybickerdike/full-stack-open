@@ -11,12 +11,16 @@ const reducer = (state = initialState, action) => {
 	}
 };
 
-export const setNotification = (content) => {
-	return { type: "SET", data: content };
-};
+export const setNotification = (content, timeout) => {
+	return async (dispatch) => {
+		const seconds = timeout * 1000;
+		setTimeout(() => {
+			console.log("BUZZ", timeout);
+			dispatch({ type: "CLEAR" });
+		}, seconds);
 
-export const clearNotification = (content) => {
-	return { type: "CLEAR", data: content };
+		dispatch({ type: "SET", data: content });
+	};
 };
 
 export default reducer;
