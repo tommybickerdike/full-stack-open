@@ -1,4 +1,5 @@
 const initialState = null;
+let notificationTimer;
 
 const reducer = (state = initialState, action) => {
 	switch (action.type) {
@@ -14,7 +15,10 @@ const reducer = (state = initialState, action) => {
 export const setNotification = (content, timeout) => {
 	return async (dispatch) => {
 		const seconds = timeout * 1000;
-		setTimeout(() => {
+
+		clearTimeout(notificationTimer);
+
+		notificationTimer = setTimeout(() => {
 			dispatch({ type: "CLEAR" });
 		}, seconds);
 
