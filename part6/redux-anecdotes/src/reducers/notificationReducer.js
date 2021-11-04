@@ -15,7 +15,6 @@ export const setNotification = (content, timeout) => {
 	return async (dispatch) => {
 		const seconds = timeout * 1000;
 		setTimeout(() => {
-			console.log("BUZZ", timeout);
 			dispatch({ type: "CLEAR" });
 		}, seconds);
 
