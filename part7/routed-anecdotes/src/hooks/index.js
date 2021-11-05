@@ -13,8 +13,8 @@ export const useField = (type) => {
 
 	return {
 		type,
-		reset,
 		value,
 		onChange,
+		functions: { reset },
 	};
 };

@@ -41,7 +41,6 @@ const AnecdoteList = ({ anecdotes }) => (
 );
 
 const Anecdote = ({ anecdote }) => {
-	console.log("Anecdote", anecdote);
 	return (
 		<div>
 			<h2>
@@ -102,7 +101,6 @@ const CreateNew = ({ addNew, setNotification }) => {
 	let notificationTimer;
 
 	const handleSubmit = (e) => {
-		debugger;
 		e.preventDefault();
 		addNew({
 			content: content.value,
@@ -120,9 +118,9 @@ const CreateNew = ({ addNew, setNotification }) => {
 
 	const resetForm = (e) => {
 		e.preventDefault();
-		content.reset();
-		author.reset();
-		info.reset();
+		content.functions.reset();
+		author.functions.reset();
+		info.functions.reset();
 	};
 
 	return (
