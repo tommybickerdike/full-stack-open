@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import blogService from "../services/blogs";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { setNotification } from "../reducers/notificationReducer";
 
-const AddBlog = ({ blogs, setBlogs, setNotification, toggleRef }) => {
+const AddBlog = ({ blogs, setBlogs, toggleRef, setNotification }) => {
 	const [title, setTitle] = useState([]);
 	const [author, setAuthor] = useState([]);
 	const [url, setUrl] = useState([]);
@@ -17,17 +19,12 @@ const AddBlog = ({ blogs, setBlogs, setNotification, toggleRef }) => {
 			setTitle("");
 			setAuthor("");
 			setUrl("");
-			if (setNotification) {
-				setNotification({
-					message: `A new blog: "${title}" by ${author} added`,
-					style: "good",
-				});
-			}
+
+			setNotification(`A new blog: "${title}" by ${author} added`, 10);
+
 			if (toggleRef) toggleRef.current.toggleVisibility();
 		} catch (exception) {
-			if (setNotification) {
-				setNotification({ message: "could not add blog", style: "bad" });
-			}
+			setNotification("could not add blog", 10);
 		}
 	};
 
@@ -71,8 +68,15 @@ const AddBlog = ({ blogs, setBlogs, setNotification, toggleRef }) => {
 AddBlog.propTypes = {
 	blogs: PropTypes.array.isRequired,
 	setBlogs: PropTypes.func.isRequired,
-	setNotification: PropTypes.func,
 	toggleRef: PropTypes.object,
 };
 
-export default AddBlog;
+const mapDispatchToProps = (dispatch) => {
+	return {
+		setNotification: (value, time) => {
+			dispatch(setNotification(value, time));
+		},
+	};
+};
+
+export default connect(null, mapDispatchToProps)(AddBlog);

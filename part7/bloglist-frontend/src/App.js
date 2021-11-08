@@ -11,7 +11,6 @@ import userService from "./services/user";
 const App = () => {
 	const [user, setUser] = useState(null);
 	const [blogs, setBlogs] = useState([]);
-	const [notification, setNotification] = useState(null);
 	const blogFormRef = useRef();
 
 	const sortedByLike = blogs.sort(function (a, b) {
@@ -31,38 +30,25 @@ const App = () => {
 
 	return (
 		<main>
-			<Notification
-				notification={notification}
-				setNotification={setNotification}
-			/>
+			<Notification />
 			{user === null ? (
 				<Toggle buttonLabel="Login">
-					<LoginForm setUser={setUser} setNotification={setNotification} />
+					<LoginForm setUser={setUser} />
 				</Toggle>
 			) : (
 				<div>
 					<h2>blogs</h2>
-					<UserInfo
-						user={user}
-						setUser={setUser}
-						setNotification={setNotification}
-					/>
+					<UserInfo user={user} setUser={setUser} />
 					<Toggle buttonLabel="Create new blog" ref={blogFormRef}>
 						<AddBlogForm
 							toggleRef={blogFormRef}
 							blogs={blogs}
 							setBlogs={setBlogs}
-							setNotification={setNotification}
 						/>
 					</Toggle>
 					<div id="blogs">
 						{sortedByLike.map((blog) => (
-							<Blog
-								key={blog.id}
-								blog={blog}
-								setNotification={setNotification}
-								user={user}
-							/>
+							<Blog key={blog.id} blog={blog} user={user} />
 						))}
 					</div>
 				</div>

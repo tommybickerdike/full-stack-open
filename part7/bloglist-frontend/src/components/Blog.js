@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import blogService from "../services/blogs";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { setNotification } from "../reducers/notificationReducer";
 
-const Blog = ({ blog, setNotification, user }) => {
+const Blog = ({ blog, user, setNotification }) => {
 	const [visible, setVisible] = useState(false);
 	const [removed, setRemoved] = useState(false);
 	const [likes, setLikes] = useState(blog.likes);
@@ -23,9 +25,7 @@ const Blog = ({ blog, setNotification, user }) => {
 			const updatedBlog = await blogService.like(blog, likes);
 			setLikes(updatedBlog.likes);
 		} catch (exception) {
-			if (setNotification) {
-				setNotification({ message: "could not like", style: "bad" });
-			}
+			setNotification("could not like", 10);
 		}
 	};
 
@@ -40,7 +40,7 @@ const Blog = ({ blog, setNotification, user }) => {
 				setRemoved(true);
 			}
 		} catch (exception) {
-			setNotification({ message: "could not remove", style: "bad" });
+			setNotification("could not remove", 10);
 		}
 	};
 
@@ -100,8 +100,15 @@ const Blog = ({ blog, setNotification, user }) => {
 
 Blog.propTypes = {
 	blog: PropTypes.object.isRequired,
-	setNotification: PropTypes.func,
 	user: PropTypes.object.isRequired,
 };
 
-export default Blog;
+const mapDispatchToProps = (dispatch) => {
+	return {
+		setNotification: (value, time) => {
+			dispatch(setNotification(value, time));
+		},
+	};
+};
+
+export default connect(null, mapDispatchToProps)(Blog);
