@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import blogService from "../services/blogs";
+// import blogService from "../services/blogs";
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
 import { setNotification } from "../reducers/notificationReducer";
 
-const AddBlog = ({ blogs, setBlogs, toggleRef, setNotification }) => {
+const AddBlog = () => {
 	const [title, setTitle] = useState([]);
 	const [author, setAuthor] = useState([]);
 	const [url, setUrl] = useState([]);
@@ -12,20 +11,20 @@ const AddBlog = ({ blogs, setBlogs, toggleRef, setNotification }) => {
 	const handleAdd = async (event) => {
 		event.preventDefault();
 
-		try {
-			const newBlog = await blogService.addNew(title, author, url);
-			const newBlogs = blogs.concat(newBlog);
-			setBlogs(newBlogs);
-			setTitle("");
-			setAuthor("");
-			setUrl("");
+		// try {
+		// 	const newBlog = await blogService.addNew(title, author, url);
+		// 	const newBlogs = blogs.concat(newBlog);
+		// 	setBlogs(newBlogs);
+		// 	setTitle("");
+		// 	setAuthor("");
+		// 	setUrl("");
 
-			setNotification(`A new blog: "${title}" by ${author} added`, 10);
+		// 	setNotification(`A new blog: "${title}" by ${author} added`, 10);
 
-			if (toggleRef) toggleRef.current.toggleVisibility();
-		} catch (exception) {
-			setNotification("could not add blog", 10);
-		}
+		// 	if (toggleRef) toggleRef.current.toggleVisibility();
+		// } catch (exception) {
+		// 	setNotification("could not add blog", 10);
+		// }
 	};
 
 	return (
@@ -65,10 +64,10 @@ const AddBlog = ({ blogs, setBlogs, toggleRef, setNotification }) => {
 	);
 };
 
-AddBlog.propTypes = {
-	blogs: PropTypes.array.isRequired,
-	setBlogs: PropTypes.func.isRequired,
-	toggleRef: PropTypes.object,
+const mapStateToProps = (state) => {
+	return {
+		blogs: state.blogs,
+	};
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -79,4 +78,4 @@ const mapDispatchToProps = (dispatch) => {
 	};
 };
 
-export default connect(null, mapDispatchToProps)(AddBlog);
+export default connect(mapStateToProps, mapDispatchToProps)(AddBlog);

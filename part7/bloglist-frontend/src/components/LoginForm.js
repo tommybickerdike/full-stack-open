@@ -1,20 +1,15 @@
 import React, { useState } from "react";
-import loginService from "../services/login";
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
 import { setNotification } from "../reducers/notificationReducer";
+import { login } from "../reducers/userReducer";
 
-const LoginForm = ({ setUser, setNotification }) => {
+const LoginForm = (props) => {
 	const handleLogin = async (event) => {
 		event.preventDefault();
 		try {
-			const user = await loginService.login(username, password);
-			setUser(user);
-			window.localStorage.setItem("user", JSON.stringify(user));
-			setUsername("");
-			setPassword("");
+			props.login(username, password);
 		} catch (exception) {
-			setNotification("wrong username or password", 10);
+			props.setNotification("wrong username or password", 10);
 		}
 	};
 	const [username, setUsername] = useState([]);
@@ -49,14 +44,13 @@ const LoginForm = ({ setUser, setNotification }) => {
 	);
 };
 
-LoginForm.propTypes = {
-	setUser: PropTypes.func.isRequired,
-};
-
 const mapDispatchToProps = (dispatch) => {
 	return {
 		setNotification: (value, time) => {
 			dispatch(setNotification(value, time));
+		},
+		login: (username, password) => {
+			dispatch(login(username, password));
 		},
 	};
 };
