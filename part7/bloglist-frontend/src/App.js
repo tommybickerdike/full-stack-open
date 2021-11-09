@@ -15,7 +15,7 @@ const App = (props) => {
 	useEffect(() => {
 		dispatch(initBlogs());
 	}, [dispatch]);
-	console.log(props);
+
 	return (
 		<main>
 			<Notification />

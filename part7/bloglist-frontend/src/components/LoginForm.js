@@ -1,17 +1,20 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { setNotification } from "../reducers/notificationReducer";
-import { login } from "../reducers/userReducer";
+import { setUser } from "../reducers/userReducer";
+import { login } from "../services/login";
 
 const LoginForm = (props) => {
 	const handleLogin = async (event) => {
 		event.preventDefault();
 		try {
-			props.login(username, password);
+			const user = await login(username, password);
+			props.setUser(user);
 		} catch (exception) {
-			props.setNotification("wrong username or password", 10);
+			props.setNotification("username or password wrong", 10);
 		}
 	};
+
 	const [username, setUsername] = useState([]);
 	const [password, setPassword] = useState([]);
 
@@ -49,8 +52,8 @@ const mapDispatchToProps = (dispatch) => {
 		setNotification: (value, time) => {
 			dispatch(setNotification(value, time));
 		},
-		login: (username, password) => {
-			dispatch(login(username, password));
+		setUser: (user) => {
+			dispatch(setUser(user));
 		},
 	};
 };
