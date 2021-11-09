@@ -1,5 +1,4 @@
 const initialState = null;
-
 let notificationTimer;
 
 const reducer = (state = initialState, action) => {

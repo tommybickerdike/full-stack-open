@@ -1,30 +1,24 @@
-import React, { useState, useEffect, useRef } from "react";
-import Blog from "./components/Blog";
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import BlogList from "./components/BlogList";
 import LoginForm from "./components/LoginForm";
 import AddBlogForm from "./components/AddBlogForm";
 import Notification from "./components/Notification";
 import UserInfo from "./components/UserInfo";
 import Toggle from "./components/Toggle";
-import blogService from "./services/blogs";
 import userService from "./services/user";
+import { initialize as initBlogs } from "./reducers/blogReducer";
 
 const App = () => {
-	const [user, setUser] = useState(null);
-	const [blogs, setBlogs] = useState([]);
-	const blogFormRef = useRef();
-
-	const sortedByLike = blogs.sort(function (a, b) {
-		if (a.likes < b.likes) {
-			return 1;
-		}
-		if (a.likes > b.likes) {
-			return -1;
-		}
-		return 0;
-	});
+	const dispatch = useDispatch();
 
 	useEffect(() => {
-		blogService.getAll().then((blogs) => setBlogs(blogs));
+		dispatch(initBlogs());
+	}, [dispatch]);
+
+	const [user, setUser] = useState(null);
+
+	useEffect(() => {
 		userService.getUser().then((user) => setUser(user));
 	}, []);
 
@@ -39,18 +33,10 @@ const App = () => {
 				<div>
 					<h2>blogs</h2>
 					<UserInfo user={user} setUser={setUser} />
-					<Toggle buttonLabel="Create new blog" ref={blogFormRef}>
-						<AddBlogForm
-							toggleRef={blogFormRef}
-							blogs={blogs}
-							setBlogs={setBlogs}
-						/>
+					<Toggle buttonLabel="Create new blog">
+						<AddBlogForm />
 					</Toggle>
-					<div id="blogs">
-						{sortedByLike.map((blog) => (
-							<Blog key={blog.id} blog={blog} user={user} />
-						))}
-					</div>
+					<BlogList />
 				</div>
 			)}
 		</main>

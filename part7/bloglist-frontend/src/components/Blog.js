@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { setNotification } from "../reducers/notificationReducer";
 
-const Blog = ({ blog, user, setNotification }) => {
+const Blog = ({ blog }) => {
 	const [visible, setVisible] = useState(false);
 	const [removed, setRemoved] = useState(false);
 	const [likes, setLikes] = useState(blog.likes);
@@ -52,7 +52,7 @@ const Blog = ({ blog, user, setNotification }) => {
 	};
 
 	const showWhenUser = {
-		display: blog.user.username === user.username ? "block" : "none",
+		// display: blog.user.username === user.username ? "block" : "none",
 	};
 
 	const hideWhenRemoved = { display: removed ? "none" : "block" };
@@ -100,7 +100,7 @@ const Blog = ({ blog, user, setNotification }) => {
 
 Blog.propTypes = {
 	blog: PropTypes.object.isRequired,
-	user: PropTypes.object.isRequired,
+	// user: PropTypes.object.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => {
