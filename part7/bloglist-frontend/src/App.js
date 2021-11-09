@@ -9,7 +9,7 @@ import UserInfo from "./components/UserInfo";
 import Toggle from "./components/Toggle";
 import { initialize as initUser } from "./reducers/userReducer";
 
-const App = (props) => {
+const App = ({ user }) => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -19,14 +19,14 @@ const App = (props) => {
 	return (
 		<main>
 			<Notification />
-			{props.user === null ? (
+			{user === null ? (
 				<Toggle buttonLabel="Login">
 					<LoginForm />
 				</Toggle>
 			) : (
 				<div>
 					<h2>blogs</h2>
-					<UserInfo user={props.user} />
+					<UserInfo user={user} />
 					<Toggle buttonLabel="Create new blog">
 						<AddBlogForm />
 					</Toggle>
