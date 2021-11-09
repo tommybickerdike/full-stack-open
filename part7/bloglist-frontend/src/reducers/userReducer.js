@@ -7,6 +7,16 @@ const reducer = (state = null, action) => {
 	}
 };
 
+export const initialize = () => {
+	const user = window.localStorage.getItem("user");
+	return async (dispatch) => {
+		dispatch({
+			type: "SET_USER",
+			data: user,
+		});
+	};
+};
+
 export const setUser = (user) => {
 	return async (dispatch) => {
 		dispatch({
@@ -17,6 +27,7 @@ export const setUser = (user) => {
 };
 
 export const logout = () => {
+	window.localStorage.removeItem("user");
 	return async (dispatch) => {
 		dispatch({
 			type: "SET_USER",

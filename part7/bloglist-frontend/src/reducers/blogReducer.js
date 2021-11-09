@@ -4,6 +4,9 @@ const reducer = (state = [], action) => {
 	switch (action.type) {
 		case "LOAD_BLOGS":
 			return action.data.sort((a, b) => b.likes - a.likes);
+		case "ADD_BLOG":
+			const blogs = state;
+			return blogs.concat(action.data);
 		default:
 			return state;
 	}
@@ -15,6 +18,15 @@ export const initialize = () => {
 		dispatch({
 			type: "LOAD_BLOGS",
 			data: initBlogs,
+		});
+	};
+};
+
+export const addBlog = (newBlog) => {
+	return async (dispatch) => {
+		dispatch({
+			type: "ADD_BLOG",
+			data: newBlog,
 		});
 	};
 };

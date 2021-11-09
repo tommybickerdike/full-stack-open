@@ -4,14 +4,14 @@ import { setNotification } from "../reducers/notificationReducer";
 import { setUser } from "../reducers/userReducer";
 import { login } from "../services/login";
 
-const LoginForm = (props) => {
+const LoginForm = ({ setUser, setNotification }) => {
 	const handleLogin = async (event) => {
 		event.preventDefault();
 		try {
 			const user = await login(username, password);
-			props.setUser(user);
+			setUser(user);
 		} catch (exception) {
-			props.setNotification("username or password wrong", 10);
+			setNotification("username or password wrong", 10);
 		}
 	};
 

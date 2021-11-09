@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getUser } from "../services/user";
 import { setNotification } from "../reducers/notificationReducer";
 import { logout } from "../reducers/userReducer";
 
@@ -10,7 +9,8 @@ const handleLogout = (props) => {
 };
 
 const UserInfo = (props) => {
-	const user = getUser(props.user);
+	const user = JSON.parse(props.user);
+
 	return (
 		<div>
 			<p>{user.name} logged in</p>

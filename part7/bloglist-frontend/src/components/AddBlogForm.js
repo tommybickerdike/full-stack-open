@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-// import blogService from "../services/blogs";
+import blogService from "../services/blogs";
 import { connect } from "react-redux";
 import { setNotification } from "../reducers/notificationReducer";
+import { addBlog } from "../reducers/blogReducer";
 
-const AddBlog = () => {
+const AddBlog = ({ setNotification, addBlog }) => {
 	const [title, setTitle] = useState([]);
 	const [author, setAuthor] = useState([]);
 	const [url, setUrl] = useState([]);
@@ -11,20 +12,16 @@ const AddBlog = () => {
 	const handleAdd = async (event) => {
 		event.preventDefault();
 
-		// try {
-		// 	const newBlog = await blogService.addNew(title, author, url);
-		// 	const newBlogs = blogs.concat(newBlog);
-		// 	setBlogs(newBlogs);
-		// 	setTitle("");
-		// 	setAuthor("");
-		// 	setUrl("");
-
-		// 	setNotification(`A new blog: "${title}" by ${author} added`, 10);
-
-		// 	if (toggleRef) toggleRef.current.toggleVisibility();
-		// } catch (exception) {
-		// 	setNotification("could not add blog", 10);
-		// }
+		try {
+			const newBlog = await blogService.addNew(title, author, url);
+			addBlog(newBlog);
+			setNotification(`A new blog: "${title}" by ${author} added`, 10);
+			setTitle("");
+			setAuthor("");
+			setUrl("");
+		} catch (exception) {
+			setNotification("could not add blog", 10);
+		}
 	};
 
 	return (
@@ -74,6 +71,9 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		setNotification: (value, time) => {
 			dispatch(setNotification(value, time));
+		},
+		addBlog: (newBlog) => {
+			dispatch(addBlog(newBlog));
 		},
 	};
 };
