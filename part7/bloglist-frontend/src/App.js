@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import { useDispatch } from "react-redux";
 import BlogList from "./components/BlogList";
 import LoginForm from "./components/LoginForm";
@@ -6,33 +7,26 @@ import AddBlogForm from "./components/AddBlogForm";
 import Notification from "./components/Notification";
 import UserInfo from "./components/UserInfo";
 import Toggle from "./components/Toggle";
-import userService from "./services/user";
 import { initialize as initBlogs } from "./reducers/blogReducer";
 
-const App = () => {
+const App = (props) => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		dispatch(initBlogs());
 	}, [dispatch]);
-
-	const [user, setUser] = useState(null);
-
-	useEffect(() => {
-		userService.getUser().then((user) => setUser(user));
-	}, []);
-
+	console.log(props);
 	return (
 		<main>
 			<Notification />
-			{user === null ? (
+			{props.user === null ? (
 				<Toggle buttonLabel="Login">
-					<LoginForm setUser={setUser} />
+					<LoginForm />
 				</Toggle>
 			) : (
 				<div>
 					<h2>blogs</h2>
-					<UserInfo user={user} setUser={setUser} />
+					<UserInfo user={props.user} />
 					<Toggle buttonLabel="Create new blog">
 						<AddBlogForm />
 					</Toggle>
@@ -43,4 +37,10 @@ const App = () => {
 	);
 };
 
-export default App;
+const mapStateToProps = (state) => {
+	return {
+		user: state.user,
+	};
+};
+
+export default connect(mapStateToProps, null)(App);

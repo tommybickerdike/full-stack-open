@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { getUser } from "../services/user";
 import { setNotification } from "../reducers/notificationReducer";
 import { logout } from "../reducers/userReducer";
 
@@ -9,10 +10,10 @@ const handleLogout = (props) => {
 };
 
 const UserInfo = (props) => {
-	console.log(props);
+	const user = getUser(props.user);
 	return (
 		<div>
-			<p>{props.user.name} logged in</p>
+			<p>{user.name} logged in</p>
 			<button onClick={() => handleLogout(props)}>Logout</button>
 		</div>
 	);

@@ -1,9 +1,11 @@
 import loginService from "../services/login";
 
-const reducer = (state = [], action) => {
+const reducer = (state = null, action) => {
 	switch (action.type) {
 		case "SET_USER":
 			return action.data;
+		case "GET_USER":
+			return;
 		default:
 			return state;
 	}
@@ -14,7 +16,15 @@ export const login = (username, password) => {
 		const user = await loginService.login(username, password);
 		dispatch({
 			type: "SET_USER",
-			data: user.token,
+			data: JSON.stringify(user),
+		});
+	};
+};
+
+export const get = () => {
+	return async (dispatch) => {
+		dispatch({
+			type: "GET_USER",
 		});
 	};
 };
