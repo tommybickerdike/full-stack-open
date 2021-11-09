@@ -3,9 +3,9 @@ let notificationTimer;
 
 const reducer = (state = initialState, action) => {
 	switch (action.type) {
-		case "NOTE":
+		case "NOTIFICATION":
 			return action.data;
-		case "CLEAR_NOTE":
+		case "CLEAR_NOTIFICATION":
 			return initialState;
 		default:
 			return state;
@@ -19,10 +19,10 @@ export const setNotification = (content, timeout) => {
 		clearTimeout(notificationTimer);
 
 		notificationTimer = setTimeout(() => {
-			dispatch({ type: "CLEAR_NOTE" });
+			dispatch({ type: "CLEAR_NOTIFICATION" });
 		}, seconds);
 
-		dispatch({ type: "NOTE", data: content });
+		dispatch({ type: "NOTIFICATION", data: content });
 	};
 };
 

@@ -7,14 +7,12 @@ import AddBlogForm from "./components/AddBlogForm";
 import Notification from "./components/Notification";
 import UserInfo from "./components/UserInfo";
 import Toggle from "./components/Toggle";
-import { initialize as initBlogs } from "./reducers/blogReducer";
 import { initialize as initUser } from "./reducers/userReducer";
 
 const App = (props) => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		dispatch(initBlogs());
 		dispatch(initUser());
 	}, [dispatch]);
 
