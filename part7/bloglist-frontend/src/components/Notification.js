@@ -21,7 +21,7 @@ const Notification = (props) => {
 };
 
 Notification.propTypes = {
-	notification: PropTypes.object.isRequired,
+	notification: PropTypes.object,
 };
 
 const mapStateToProps = (state) => {

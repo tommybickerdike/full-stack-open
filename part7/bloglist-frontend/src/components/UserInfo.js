@@ -10,11 +10,9 @@ const handleLogout = (props) => {
 };
 
 const UserInfo = (props) => {
-	const user = JSON.parse(props.user);
-
 	return (
 		<div>
-			<p>{user.name} logged in</p>
+			<p>{props.user.name} logged in</p>
 			<button onClick={() => handleLogout(props)}>Logout</button>
 		</div>
 	);
@@ -26,7 +24,7 @@ UserInfo.propTypes = {
 
 const mapStateToProps = (state) => {
 	return {
-		user: state.user,
+		user: JSON.parse(state.user),
 	};
 };
 

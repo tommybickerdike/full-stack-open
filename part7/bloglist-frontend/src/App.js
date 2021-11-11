@@ -27,7 +27,7 @@ const App = ({ user }) => {
 			) : (
 				<div>
 					<h2>blogs</h2>
-					<UserInfo user={user} />
+					<UserInfo />
 					<Toggle buttonLabel="Create new blog">
 						<AddBlogForm />
 					</Toggle>
@@ -39,7 +39,7 @@ const App = ({ user }) => {
 };
 
 App.propTypes = {
-	user: PropTypes.object.isRequired,
+	user: PropTypes.string,
 };
 
 const mapDispatchToProps = (dispatch) => {
