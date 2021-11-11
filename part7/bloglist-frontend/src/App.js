@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
-import BlogList from "./components/BlogList";
+import BlogList from "./routes/BlogList";
+import Users from "./routes/Users";
+import User from "./routes/User";
 import LoginForm from "./components/LoginForm";
 import Notification from "./components/Notification";
 import UserInfo from "./components/UserInfo";
-import Users from "./components/Users";
 import Toggle from "./components/Toggle";
 import PropTypes from "prop-types";
 import { initialize as initUser } from "./reducers/userReducer";
@@ -29,6 +30,7 @@ const App = ({ user }) => {
 					<h2>blogs</h2>
 					<UserInfo />
 					<Routes>
+						<Route path="user/:id" element={<User user={user} />}></Route>
 						<Route path="users" element={<Users />}></Route>
 						<Route path="/" element={<BlogList />}></Route>
 					</Routes>
