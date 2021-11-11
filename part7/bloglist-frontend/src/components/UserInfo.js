@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { setNotification } from "../reducers/notificationReducer";
 import { logout } from "../reducers/userReducer";
+import PropTypes from "prop-types";
 
 const handleLogout = (props) => {
 	props.logout();
@@ -19,11 +20,16 @@ const UserInfo = (props) => {
 	);
 };
 
+UserInfo.propTypes = {
+	user: PropTypes.object.isRequired,
+};
+
 const mapStateToProps = (state) => {
 	return {
 		user: state.user,
 	};
 };
+
 const mapDispatchToProps = (dispatch) => {
 	return {
 		setNotification: (value, time) => {

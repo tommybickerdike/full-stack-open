@@ -7,6 +7,7 @@ import AddBlogForm from "./components/AddBlogForm";
 import Notification from "./components/Notification";
 import UserInfo from "./components/UserInfo";
 import Toggle from "./components/Toggle";
+import PropTypes from "prop-types";
 import { initialize as initUser } from "./reducers/userReducer";
 
 const App = ({ user }) => {
@@ -35,6 +36,10 @@ const App = ({ user }) => {
 			)}
 		</main>
 	);
+};
+
+App.propTypes = {
+	user: PropTypes.object.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => {

@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { setNotification } from "../reducers/notificationReducer";
 import { setUser } from "../reducers/userReducer";
 import { login } from "../services/login";
+import PropTypes from "prop-types";
 
 const LoginForm = ({ setUser, setNotification }) => {
 	const handleLogin = async (event) => {
@@ -45,6 +46,11 @@ const LoginForm = ({ setUser, setNotification }) => {
 			</button>
 		</form>
 	);
+};
+
+LoginForm.propTypes = {
+	setNotification: PropTypes.func.isRequired,
+	setUser: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => {

@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 const Notification = (props) => {
 	const notification = props.notification;
@@ -17,6 +18,10 @@ const Notification = (props) => {
 	) : (
 		""
 	);
+};
+
+Notification.propTypes = {
+	notification: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => {

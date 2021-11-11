@@ -3,6 +3,7 @@ import blogService from "../services/blogs";
 import { connect } from "react-redux";
 import { setNotification } from "../reducers/notificationReducer";
 import { addBlog } from "../reducers/blogReducer";
+import PropTypes from "prop-types";
 
 const AddBlog = ({ setNotification, addBlog }) => {
 	const [title, setTitle] = useState([]);
@@ -61,10 +62,9 @@ const AddBlog = ({ setNotification, addBlog }) => {
 	);
 };
 
-const mapStateToProps = (state) => {
-	return {
-		blogs: state.blogs,
-	};
+AddBlog.propTypes = {
+	addBlog: PropTypes.func.isRequired,
+	setNotification: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -78,4 +78,4 @@ const mapDispatchToProps = (dispatch) => {
 	};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddBlog);
+export default connect(null, mapDispatchToProps)(AddBlog);

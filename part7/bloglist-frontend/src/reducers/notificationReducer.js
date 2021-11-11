@@ -3,12 +3,12 @@ let notificationTimer;
 
 const reducer = (state = initialState, action) => {
 	switch (action.type) {
-		case "NOTIFICATION":
-			return action.data;
-		case "CLEAR_NOTIFICATION":
-			return initialState;
-		default:
-			return state;
+	case "NOTIFICATION":
+		return action.data;
+	case "CLEAR_NOTIFICATION":
+		return initialState;
+	default:
+		return state;
 	}
 };
 
