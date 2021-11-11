@@ -3,6 +3,8 @@ import Blog from "./Blog";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
+import Toggle from "./Toggle";
+import AddBlogForm from "./AddBlogForm";
 import { setNotification } from "../reducers/notificationReducer";
 import { initialize as initBlogs } from "../reducers/blogReducer";
 
@@ -16,7 +18,14 @@ const BlogList = ({blogs}) => {
 		<Blog key={blog.id} blog={blog} />
 	));
 
-	return <div id="blogs">{blogList}</div>;
+	return ( 
+		<div>
+			<Toggle buttonLabel="Create new blog">
+				<AddBlogForm />
+			</Toggle>
+			<div id="blogs">{blogList}</div>
+		</div>
+	);
 };
 
 BlogList.propTypes = {

@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
-import { connect } from "react-redux";
-import { useDispatch } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import BlogList from "./components/BlogList";
 import LoginForm from "./components/LoginForm";
-import AddBlogForm from "./components/AddBlogForm";
 import Notification from "./components/Notification";
 import UserInfo from "./components/UserInfo";
+import Users from "./components/Users";
 import Toggle from "./components/Toggle";
 import PropTypes from "prop-types";
 import { initialize as initUser } from "./reducers/userReducer";
+import { Routes, Route } from "react-router-dom";
 
 const App = ({ user }) => {
 	const dispatch = useDispatch();
@@ -28,10 +28,10 @@ const App = ({ user }) => {
 				<div>
 					<h2>blogs</h2>
 					<UserInfo />
-					<Toggle buttonLabel="Create new blog">
-						<AddBlogForm />
-					</Toggle>
-					<BlogList />
+					<Routes>
+						<Route path="users" element={<Users />}></Route>
+						<Route path="/" element={<BlogList />}></Route>
+					</Routes>
 				</div>
 			)}
 		</main>
