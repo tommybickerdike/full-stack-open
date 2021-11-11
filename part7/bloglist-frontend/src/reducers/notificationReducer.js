@@ -1,4 +1,4 @@
-const initialState = null;
+const initialState = {message: "", style: "hidden"};
 let notificationTimer;
 
 const reducer = (state = initialState, action) => {
@@ -12,9 +12,11 @@ const reducer = (state = initialState, action) => {
 	}
 };
 
-export const setNotification = (content, timeout) => {
+export const setNotification = (message, timeout, style) => {
 	return async (dispatch) => {
 		const seconds = timeout * 1000;
+
+		const data = { message: message, style: style };
 
 		clearTimeout(notificationTimer);
 
@@ -22,7 +24,7 @@ export const setNotification = (content, timeout) => {
 			dispatch({ type: "CLEAR_NOTIFICATION" });
 		}, seconds);
 
-		dispatch({ type: "NOTIFICATION", data: content });
+		dispatch({ type: "NOTIFICATION", data: data });
 	};
 };
 

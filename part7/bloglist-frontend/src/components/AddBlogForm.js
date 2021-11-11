@@ -16,7 +16,7 @@ const AddBlog = ({ setNotification, addBlog }) => {
 		try {
 			const newBlog = await blogService.addNew(title, author, url);
 			addBlog(newBlog);
-			setNotification(`A new blog: "${title}" by ${author} added`, 10);
+			setNotification(`A new blog: "${title}" by ${author} added`, 10, "good");
 			setTitle("");
 			setAuthor("");
 			setUrl("");
@@ -69,8 +69,8 @@ AddBlog.propTypes = {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		setNotification: (value, time) => {
-			dispatch(setNotification(value, time));
+		setNotification: (value, time, style) => {
+			dispatch(setNotification(value, time, style));
 		},
 		addBlog: (newBlog) => {
 			dispatch(addBlog(newBlog));

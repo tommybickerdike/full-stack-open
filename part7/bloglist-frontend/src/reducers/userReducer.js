@@ -1,5 +1,9 @@
-const reducer = (state = null, action) => {
+const initialState = window.localStorage.getItem("user");
+
+const reducer = (state = initialState, action) => {
 	switch (action.type) {
+	case "INIT_USER":
+		return initialState;
 	case "SET_USER":
 		return action.data;
 	default:
@@ -8,11 +12,9 @@ const reducer = (state = null, action) => {
 };
 
 export const initialize = () => {
-	const user = window.localStorage.getItem("user");
 	return async (dispatch) => {
 		dispatch({
-			type: "SET_USER",
-			data: user,
+			type: "INIT_USER",
 		});
 	};
 };

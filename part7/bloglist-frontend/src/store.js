@@ -16,6 +16,8 @@ const reducer = combineReducers({
 });
 
 const Store = ({ children }) => {
+	console.log(reducer.notification);
+	
 	const store = createStore(
 		reducer,
 		composeWithDevTools(applyMiddleware(thunk))

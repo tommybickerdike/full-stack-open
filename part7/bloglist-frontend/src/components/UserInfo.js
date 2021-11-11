@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 
 const handleLogout = (props) => {
 	props.logout();
-	props.setNotification("logged out", 10);
+	props.setNotification("logged out", 10, "good");
 };
 
 const UserInfo = (props) => {
@@ -30,8 +30,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		setNotification: (value, time) => {
-			dispatch(setNotification(value, time));
+		setNotification: (message, timeout, style) => {
+			dispatch(setNotification(message, timeout, style));
 		},
 		logout: () => {
 			dispatch(logout());

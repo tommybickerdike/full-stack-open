@@ -1,17 +1,26 @@
 import React, { useEffect } from "react";
 import Blog from "./Blog";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { setNotification } from "../reducers/notificationReducer";
 import { initialize as initBlogs } from "../reducers/blogReducer";
 
-const BlogList = (props) => {
+const BlogList = ({blogs}) => {
 	const dispatch = useDispatch();
 	useEffect(() => {
 		dispatch(initBlogs());
 	}, [dispatch]);
 
-	return props.blogs.map((blog) => <Blog key={blog.id} blog={blog} />);
+	const blogList = blogs.map((blog) => (
+		<Blog key={blog.id} blog={blog} />
+	));
+
+	return <div id="blogs">{blogList}</div>;
+};
+
+BlogList.propTypes = {
+	blogs: PropTypes.object.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -24,6 +33,7 @@ const mapDispatchToProps = (dispatch) => {
 		},
 	};
 };
+
 const mapStateToProps = (state) => {
 	return {
 		blogs: state.blogs,

@@ -12,7 +12,7 @@ const LoginForm = ({ setUser, setNotification }) => {
 			const user = await login(username, password);
 			setUser(user);
 		} catch (exception) {
-			setNotification("username or password wrong", 10);
+			setNotification("wrong username or password", 10, "bad");
 		}
 	};
 

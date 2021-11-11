@@ -2,18 +2,18 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-const Notification = (props) => {
-	const notification = props.notification;
-
+const Notification = ({notification}) => {
 	const style = {
 		border: "solid",
 		padding: 10,
 		borderWidth: 1,
+		display: notification.style === "hidden" ? "none" : "block",
+		backgroundColor: notification.style === "good" ? "green" : "red",
 	};
 
-	return notification ? (
+	return notification.message ? (
 		<div id="notification" style={style}>
-			{notification}
+			{notification.message}
 		</div>
 	) : (
 		""
