@@ -9,10 +9,13 @@ import UserInfo from "./components/UserInfo";
 import Toggle from "./components/Toggle";
 import PropTypes from "prop-types";
 import { initialize as initUser } from "./reducers/userReducer";
-import { Routes, Route } from "react-router-dom";
+import { Switch, Route, useRouteMatch } from "react-router-dom";
 
 const App = ({ user }) => {
 	const dispatch = useDispatch();
+
+	const url = useRouteMatch("/user/:slug");
+	const userId = url ? url.params.slug : null;
 
 	useEffect(() => {
 		dispatch(initUser());
@@ -29,11 +32,17 @@ const App = ({ user }) => {
 				<div>
 					<h2>blogs</h2>
 					<UserInfo />
-					<Routes>
-						<Route path="user/:id" element={<User user={user} />}></Route>
-						<Route path="users" element={<Users />}></Route>
-						<Route path="/" element={<BlogList />}></Route>
-					</Routes>
+					<Switch>
+						<Route path="/user/:slug">
+							<User userId={userId} />
+						</Route>
+						<Route path="/users">
+							<Users />
+						</Route>
+						<Route path="/">
+							<BlogList />
+						</Route>
+					</Switch>
 				</div>
 			)}
 		</main>
