@@ -15,7 +15,7 @@ const App = ({ user }) => {
 	const dispatch = useDispatch();
 
 	const url = useRouteMatch("/user/:slug");
-	const userId = url ? url.params.slug : null;
+	const userId = url ? url.params.slug : "";
 
 	useEffect(() => {
 		dispatch(initUser());

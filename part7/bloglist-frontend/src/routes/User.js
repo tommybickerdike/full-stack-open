@@ -15,7 +15,11 @@ const User = ({ userId }) => {
 		<div>
 			<h1>{foundUser.name}</h1>
 			<h2>Added Blogs</h2>
-			<ul></ul>
+			<ul>
+				{foundUser.blogs.map((blog) => (
+					<li key={blog.id}>{blog.title}</li>
+				))}
+			</ul>
 		</div>
 	);
 };
