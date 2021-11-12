@@ -5,13 +5,15 @@ import PropTypes from "prop-types";
 const User = ({ userId }) => {
 	const [users] = useResource("/api/users");
 
-	const foundUser = users.filter((item) => item.id === userId);
+	const foundUser = users.find((item) => item.id === userId);
+
+	if (!foundUser) {
+		return null;
+	}
 
 	return (
 		<div>
-			{foundUser.map((user) => (
-				<h1 key={user.id}>{user.name}</h1>
-			))}
+			<h1>{foundUser.name}</h1>
 			<h2>Added Blogs</h2>
 			<ul></ul>
 		</div>
