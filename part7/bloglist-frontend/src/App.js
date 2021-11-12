@@ -1,21 +1,19 @@
 import React, { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import BlogList from "./routes/BlogList";
-import Users from "./routes/Users";
+import UserList from "./routes/UserList";
 import User from "./routes/User";
+import Blog from "./routes/Blog";
 import LoginForm from "./components/LoginForm";
 import Notification from "./components/Notification";
 import UserInfo from "./components/UserInfo";
 import Toggle from "./components/Toggle";
 import PropTypes from "prop-types";
 import { initialize as initUser } from "./reducers/userReducer";
-import { Switch, Route, useRouteMatch } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 
 const App = ({ user }) => {
 	const dispatch = useDispatch();
-
-	const url = useRouteMatch("/user/:slug");
-	const userId = url ? url.params.slug : "";
 
 	useEffect(() => {
 		dispatch(initUser());
@@ -34,10 +32,13 @@ const App = ({ user }) => {
 					<UserInfo />
 					<Switch>
 						<Route path="/user/:slug">
-							<User userId={userId} />
+							<User />
 						</Route>
 						<Route path="/users">
-							<Users />
+							<UserList />
+						</Route>
+						<Route path="/blog/:slug">
+							<Blog />
 						</Route>
 						<Route path="/">
 							<BlogList />

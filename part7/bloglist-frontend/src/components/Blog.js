@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import blogService from "../services/blogs";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { setNotification } from "../reducers/notificationReducer";
 
@@ -65,7 +66,10 @@ const Blog = ({ blog, user }) => {
 
 	return (
 		<div style={{ ...blogStyle, ...hideWhenRemoved }}>
-			{blog.title}, {blog.author}
+			<Link to={`/blog/${blog.id}`}>
+				{blog.title}, {blog.author}
+			</Link>
+
 			<button
 				data-testid="blog__toggle-init"
 				style={{ ...hideWhenVisible, ...buttonStyle }}
@@ -80,7 +84,11 @@ const Blog = ({ blog, user }) => {
 				className="blog__toggle-content"
 				style={{ ...showWhenVisible, ...detailsStyle }}
 			>
-				<p>{blog.url}</p>
+				<p>
+					<a href="{blog.url}" target="_blank">
+						{blog.url}
+					</a>
+				</p>
 				<p>
 					Likes {likes}{" "}
 					<button onClick={handleLike} data-testid="blog__like-button">
@@ -88,7 +96,7 @@ const Blog = ({ blog, user }) => {
 					</button>
 				</p>
 
-				<p>{blog.user.name}</p>
+				<p>Added by {blog.user.name}</p>
 
 				<button style={showWhenUser} onClick={handleRemove}>
 					remove

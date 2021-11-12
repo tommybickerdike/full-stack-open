@@ -1,8 +1,11 @@
 import React from "react";
 import { useResource } from "../hooks/useResource";
-import PropTypes from "prop-types";
+import { useRouteMatch } from "react-router";
 
-const User = ({ userId }) => {
+const UserList = () => {
+	const userUrl = useRouteMatch("/user/:slug");
+	const userId = userUrl ? userUrl.params.slug : "";
+
 	const [users] = useResource("/api/users");
 
 	const foundUser = users.find((item) => item.id === userId);
@@ -24,8 +27,4 @@ const User = ({ userId }) => {
 	);
 };
 
-User.propTypes = {
-	userId: PropTypes.string.isRequired,
-};
-
-export default User;
+export default UserList;
