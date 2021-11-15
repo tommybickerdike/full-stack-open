@@ -3,12 +3,12 @@ import blogService from "../services/blogs";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import Likes from "./Likes";
 import { setNotification } from "../reducers/notificationReducer";
 
 const Blog = ({ blog, user }) => {
 	const [visible, setVisible] = useState(false);
 	const [removed, setRemoved] = useState(false);
-	const [likes, setLikes] = useState(blog.likes);
 
 	const blogStyle = {
 		padding: "1rem",
@@ -19,15 +19,6 @@ const Blog = ({ blog, user }) => {
 
 	const buttonStyle = {
 		float: "right",
-	};
-
-	const handleLike = async () => {
-		try {
-			const updatedBlog = await blogService.like(blog, likes);
-			setLikes(updatedBlog.likes);
-		} catch (exception) {
-			setNotification("could not like", 10);
-		}
 	};
 
 	const handleRemove = async () => {
@@ -89,12 +80,7 @@ const Blog = ({ blog, user }) => {
 						{blog.url}
 					</a>
 				</p>
-				<p>
-					Likes {likes}{" "}
-					<button onClick={handleLike} data-testid="blog__like-button">
-						Like
-					</button>
-				</p>
+				<Likes blog={blog} />
 
 				<p>Added by {blog.user.name}</p>
 

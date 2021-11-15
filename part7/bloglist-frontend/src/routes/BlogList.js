@@ -27,7 +27,7 @@ const BlogList = ({ blogs }) => {
 };
 
 BlogList.propTypes = {
-	blogs: PropTypes.object.isRequired,
+	blogs: PropTypes.array.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => {
