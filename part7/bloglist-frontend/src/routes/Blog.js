@@ -20,6 +20,11 @@ const Blog = () => {
 			<Likes blog={blog} />
 
 			<p>Added by {blog.user.name}</p>
+
+			<h2>Comments</h2>
+			{blog.comments.map((comment, index) => (
+				<li key={index}>{comment}</li>
+			))}
 		</div>
 	);
 };

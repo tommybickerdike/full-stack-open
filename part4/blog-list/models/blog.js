@@ -9,6 +9,7 @@ const blogSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "User",
 	},
+	comments: { type: Array, required: true },
 });
 
 blogSchema.set("toJSON", {
@@ -19,6 +20,10 @@ blogSchema.set("toJSON", {
 		returnedObject.likes === undefined
 			? (returnedObject.likes = 0)
 			: returnedObject.likes;
+
+		returnedObject.comments === undefined
+			? (returnedObject.comments = [])
+			: returnedObject.comments;
 	},
 });
 
