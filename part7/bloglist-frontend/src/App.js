@@ -12,6 +12,7 @@ import PropTypes from "prop-types";
 import { initialize as initUser } from "./reducers/userReducer";
 import { Switch, Route } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
 
 const App = ({ user }) => {
@@ -34,21 +35,23 @@ const App = ({ user }) => {
 			) : (
 				<main>
 					<Navigation />
-					<h2>blogs</h2>
-					<Switch>
-						<Route path="/user/:slug">
-							<User />
-						</Route>
-						<Route path="/users">
-							<UserList />
-						</Route>
-						<Route path="/blog/:slug">
-							<Blog />
-						</Route>
-						<Route path="/">
-							<BlogList />
-						</Route>
-					</Switch>
+					<Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+						<h2>blogs</h2>
+						<Switch>
+							<Route path="/user/:slug">
+								<User />
+							</Route>
+							<Route path="/users">
+								<UserList />
+							</Route>
+							<Route path="/blog/:slug">
+								<Blog />
+							</Route>
+							<Route path="/">
+								<BlogList />
+							</Route>
+						</Switch>
+					</Container>
 				</main>
 			)}
 		</ThemeProvider>
