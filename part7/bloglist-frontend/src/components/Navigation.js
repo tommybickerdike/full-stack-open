@@ -1,4 +1,6 @@
 import React from "react";
+import { Toolbar, AppBar, Button, IconButton, Box } from "@mui/material";
+import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import { connect } from "react-redux";
 import { setNotification } from "../reducers/notificationReducer";
 import { logout } from "../reducers/userReducer";
@@ -12,12 +14,29 @@ const handleLogout = (props) => {
 
 const Navigation = (props) => {
 	return (
-		<nav>
-			<Link to={"/blogs"}>Blogs</Link>
-			<Link to={"/users"}>Users</Link>
-			{props.user.name} logged in
-			<button onClick={() => handleLogout(props)}>Logout</button>
-		</nav>
+		<AppBar position="sticky">
+			<Toolbar>
+				<Button to="/blogs" color="inherit" component={Link}>
+					Blogs
+				</Button>
+				<Button to="/users" color="inherit" component={Link}>
+					Users
+				</Button>
+				<Box sx={{ flexGrow: 1 }}></Box>
+				{props.user.name} logged in
+				<IconButton
+					title="Logout"
+					size="large"
+					aria-label="account of current user"
+					aria-controls="primary-search-account-menu"
+					aria-haspopup="true"
+					color="inherit"
+					onClick={() => handleLogout(props)}
+				>
+					<PowerSettingsNewIcon />
+				</IconButton>
+			</Toolbar>
+		</AppBar>
 	);
 };
 

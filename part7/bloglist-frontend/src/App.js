@@ -11,6 +11,8 @@ import Toggle from "./components/Toggle";
 import PropTypes from "prop-types";
 import { initialize as initUser } from "./reducers/userReducer";
 import { Switch, Route } from "react-router-dom";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
 
 const App = ({ user }) => {
 	const dispatch = useDispatch();
@@ -19,15 +21,18 @@ const App = ({ user }) => {
 		dispatch(initUser());
 	}, [dispatch]);
 
+	const theme = createTheme();
+
 	return (
-		<main>
+		<ThemeProvider theme={theme}>
+			<CssBaseline />
 			<Notification />
 			{user === null ? (
 				<Toggle buttonLabel="Login">
 					<LoginForm />
 				</Toggle>
 			) : (
-				<div>
+				<main>
 					<Navigation />
 					<h2>blogs</h2>
 					<Switch>
@@ -44,9 +49,9 @@ const App = ({ user }) => {
 							<BlogList />
 						</Route>
 					</Switch>
-				</div>
+				</main>
 			)}
-		</main>
+		</ThemeProvider>
 	);
 };
 
