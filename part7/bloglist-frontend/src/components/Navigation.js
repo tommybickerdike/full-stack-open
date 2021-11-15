@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { setNotification } from "../reducers/notificationReducer";
 import { logout } from "../reducers/userReducer";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 const handleLogout = (props) => {
@@ -9,16 +10,18 @@ const handleLogout = (props) => {
 	props.setNotification("logged out", 10, "good");
 };
 
-const UserInfo = (props) => {
+const Navigation = (props) => {
 	return (
-		<div>
-			<p>{props.user.name} logged in</p>
+		<nav>
+			<Link to={"/blogs"}>Blogs</Link>
+			<Link to={"/users"}>Users</Link>
+			{props.user.name} logged in
 			<button onClick={() => handleLogout(props)}>Logout</button>
-		</div>
+		</nav>
 	);
 };
 
-UserInfo.propTypes = {
+Navigation.propTypes = {
 	user: PropTypes.object.isRequired,
 };
 
@@ -39,4 +42,4 @@ const mapDispatchToProps = (dispatch) => {
 	};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserInfo);
+export default connect(mapStateToProps, mapDispatchToProps)(Navigation);
