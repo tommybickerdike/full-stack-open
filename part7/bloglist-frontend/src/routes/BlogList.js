@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import Toggle from "../components/Toggle";
 import AddBlogForm from "../components/AddBlogForm";
-import { setNotification } from "../reducers/notificationReducer";
 import { initialize as initBlogs } from "../reducers/blogReducer";
 
 const BlogList = ({ blogs }) => {
@@ -32,9 +31,6 @@ BlogList.propTypes = {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		setNotification: (value, time) => {
-			dispatch(setNotification(value, time));
-		},
 		initBlogs: () => {
 			dispatch(initBlogs());
 		},

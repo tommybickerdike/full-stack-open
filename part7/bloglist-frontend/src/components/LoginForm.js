@@ -55,8 +55,8 @@ LoginForm.propTypes = {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		setNotification: (value, time) => {
-			dispatch(setNotification(value, time));
+		setNotification: (value, time, style) => {
+			dispatch(setNotification(value, time, style));
 		},
 		setUser: (user) => {
 			dispatch(setUser(user));
