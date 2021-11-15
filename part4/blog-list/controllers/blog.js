@@ -37,9 +37,8 @@ blogsRouter.post("/:id/comments", async (request, response) => {
 	}
 	if (comment) {
 		blogToComment.comments.push(comment);
-		blogToComment.save();
-
-		response.status(200).end();
+		const savedBlog = await blogToComment.save();
+		response.status(200).json(savedBlog.toJSON()).end();
 	}
 
 	return response.status(403).json({ error: "missing comment" });

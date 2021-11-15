@@ -1,14 +1,14 @@
-const initialState = {message: "", style: "hidden"};
+const initialState = { message: "", style: "hidden" };
 let notificationTimer;
 
 const reducer = (state = initialState, action) => {
 	switch (action.type) {
-	case "SET_NOTIFICATION":
-		return action.data;
-	case "CLEAR_NOTIFICATION":
-		return initialState;
-	default:
-		return state;
+		case "SET_NOTIFICATION":
+			return action.data;
+		case "CLEAR_NOTIFICATION":
+			return initialState;
+		default:
+			return state;
 	}
 };
 
