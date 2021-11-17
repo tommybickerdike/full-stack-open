@@ -3,8 +3,24 @@ import Authors from "./components/Authors";
 import Books from "./components/Books";
 import NewBook from "./components/NewBook";
 
+const Notify = ({ errorMessage }) => {
+	if (!errorMessage) {
+		return null;
+	}
+
+	return <div style={{ color: "grey" }}>{errorMessage}</div>;
+};
+
 const App = () => {
+	const [errorMessage, setErrorMessage] = useState(null);
 	const [page, setPage] = useState("authors");
+
+	const notify = (message) => {
+		setErrorMessage(message);
+		setTimeout(() => {
+			setErrorMessage(null);
+		}, 5000);
+	};
 
 	return (
 		<div>
@@ -18,7 +34,9 @@ const App = () => {
 
 			<Books show={page === "books"} />
 
-			<NewBook show={page === "add"} />
+			<NewBook show={page === "add"} setError={notify} />
+
+			<Notify errorMessage={errorMessage} />
 		</div>
 	);
 };

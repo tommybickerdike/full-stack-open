@@ -1,24 +1,23 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { ALL_BOOKS, CREATE_BOOK } from "../queries";
 
-const NewBook = (props) => {
+const NewBook = ({ setError, ...props }) => {
 	const [title, setTitle] = useState("");
 	const [author, setAuthor] = useState("");
 	const [published, setPublished] = useState("");
 	const [genre, setGenre] = useState("");
 	const [genres, setGenres] = useState([]);
-	const [info, setInfo] = useState("");
 
 	const [createBook] = useMutation(CREATE_BOOK, {
 		refetchQueries: [{ query: ALL_BOOKS }],
 		onError: (error) => {
 			if (error.graphQlErrors && error.graphQLErrors.length > 0) {
-				setInfo(`[graphQL]: ${error.graphQLErrors[0].message}`);
+				setError(`[graphQL]: ${error.graphQLErrors[0].message}`);
 			} else if (error.networkError) {
-				setInfo(`[network]: ${error.networkError.result.errors[0].message}`);
+				setError(`[network]: ${error.networkError.result.errors[0].message}`);
 			} else {
-				setInfo(`[message]: ${error.message}`);
+				setError(`[message]: ${error.message}`);
 			}
 		},
 	});
@@ -39,7 +38,7 @@ const NewBook = (props) => {
 			},
 		});
 
-		setInfo(`[added]: ${title}`);
+		setError(`[added]: ${title}`);
 
 		setTitle("");
 		setPublished("");
@@ -90,7 +89,6 @@ const NewBook = (props) => {
 				<div>genres: {genres.join(" ")}</div>
 				<button type="submit">create book</button>
 			</form>
-			<div>{info}</div>
 		</div>
 	);
 };
