@@ -14,7 +14,10 @@ const NewBook = ({ setError, ...props }) => {
 		onError: (error) => {
 			if (error.graphQlErrors && error.graphQLErrors.length > 0) {
 				setError(`[graphQL]: ${error.graphQLErrors[0].message}`);
-			} else if (error.networkError) {
+			} else if (
+				error.networkError &&
+				error.networkError.result.errors.length > 0
+			) {
 				setError(`[network]: ${error.networkError.result.errors[0].message}`);
 			} else {
 				setError(`[message]: ${error.message}`);
