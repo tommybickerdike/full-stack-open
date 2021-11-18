@@ -27,17 +27,19 @@ const Authors = ({ setError, ...props }) => {
 	const submit = async (event) => {
 		event.preventDefault();
 
-		editBorn({
-			variables: {
-				name,
-				born,
-			},
-		});
-
-		setError(`[edited]: ${name}`);
-
-		setBorn("");
-		setName("");
+		if (name === "" || born === "") {
+			setError(`[message]: please select name and add date`);
+		} else {
+			editBorn({
+				variables: {
+					name,
+					born,
+				},
+			});
+			setError(`[edited]: ${name}`);
+			setBorn("");
+			setName("");
+		}
 	};
 
 	if (!props.show) {
@@ -77,10 +79,14 @@ const Authors = ({ setError, ...props }) => {
 			<form onSubmit={submit}>
 				<div>
 					name
-					<input
-						value={name}
-						onChange={({ target }) => setName(target.value)}
-					/>
+					<select value={name} onChange={({ target }) => setName(target.value)}>
+						<option value="" disabled></option>
+						{authors.map((a) => (
+							<option key={a.name} value={a.name}>
+								{a.name}
+							</option>
+						))}
+					</select>
 				</div>
 				<div>
 					born
