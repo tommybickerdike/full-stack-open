@@ -1,5 +1,4 @@
 const { ApolloServer, UserInputError, gql } = require("apollo-server");
-const { v1: uuid } = require("uuid");
 require("dotenv").config();
 
 const mongoose = require("mongoose");
@@ -18,9 +17,6 @@ mongoose
 	.catch((error) => {
 		console.log("error connecting to MongoDB:", error.message);
 	});
-
-const authors = Author.find({});
-const books = Book.find({});
 
 const typeDefs = gql`
 	type Book {
@@ -80,26 +76,37 @@ const resolvers = {
 
 			if (!foundAuthor) {
 				const newAuthor = new Author({ name: args.author });
-				newAuthor.save();
+				try {
+					await newAuthor.save();
+				} catch (error) {
+					throw new UserInputError(error.message, {
+						invalidAuthorCreation: args.author,
+					});
+				}
 			}
 
 			const author = await Author.findOne({ name: args.author });
-
 			const newBook = new Book({ ...args, author });
 
-			newBook.save();
+			try {
+				await newBook.save();
+			} catch (error) {
+				throw new UserInputError(error.message, {
+					invalidArgs: args,
+				});
+			}
+
 			return newBook;
 		},
 
 		editAuthor: (root, args) => {
-			const author = authors.find((a) => a.name === args.name);
-			if (!author) {
-				return null;
-			}
-
-			const updatedAuthor = { ...author, born: args.setBornTo };
-			authors = authors.map((a) => (a.name === args.name ? updatedAuthor : a));
-			return updatedAuthor;
+			// const author = authors.find((a) => a.name === args.name);
+			// if (!author) {
+			// 	return null;
+			// }
+			// const updatedAuthor = { ...author, born: args.setBornTo };
+			// authors = authors.map((a) => (a.name === args.name ? updatedAuthor : a));
+			// return updatedAuthor;
 		},
 	},
 };
