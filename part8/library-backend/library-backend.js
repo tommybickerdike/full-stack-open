@@ -19,8 +19,8 @@ mongoose
 		console.log("error connecting to MongoDB:", error.message);
 	});
 
-const authors = Author.find();
-const books = Book.find();
+const authors = Author.find({});
+const books = Book.find({});
 
 const typeDefs = gql`
 	type Book {
@@ -57,24 +57,21 @@ const typeDefs = gql`
 
 const resolvers = {
 	Query: {
-		authorCount: () => authors.length,
-		bookCount: () => books.length,
-		allBooks: (root, args) => {
-			let result = books;
-			args.author
-				? (result = result.filter((b) => b.author === args.author))
-				: result;
-			args.genre
-				? (result = result.filter((b) => b.genres.includes(args.genre)))
-				: result;
-			return result;
+		authorCount: async () => await Author.countDocuments(),
+		bookCount: async () => await Book.countDocuments(),
+		allBooks: async (root, args) => {
+			return await Book.find(
+				args.genre ? { genres: { $in: [args.genre] } } : {}
+			).populate("author");
 		},
-		allAuthors: () => authors,
+		allAuthors: async () => await Author.find({}),
 	},
 	Author: {
-		bookCount: (root) => {
-			const foundBooks = books.filter((b) => b.author === root.name);
-			return foundBooks.length;
+		bookCount: async (root) => {
+			console.log(await Book.find({ author: { $in: root._id } }));
+			return await Book.countDocuments({
+				author: { $in: root._id },
+			});
 		},
 	},
 	Mutation: {
