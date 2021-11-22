@@ -25,13 +25,13 @@ const Books = (props) => {
 
 	const books = result.data.allBooks;
 
-	const genres = books.reduce((acc, book) => {
-		book.genres.forEach((genre) => {
-			if (genre !== "" && !acc.includes(genre)) {
-				acc.push(genre);
+	const genres = books.reduce((accumulator, element) => {
+		element.genres.forEach((genre) => {
+			if (genre !== "" && !accumulator.includes(genre)) {
+				accumulator.push(genre);
 			}
 		});
-		return acc;
+		return accumulator;
 	}, []);
 
 	const booksToShow =
