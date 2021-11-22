@@ -84,7 +84,6 @@ const resolvers = {
 	},
 	Author: {
 		bookCount: async (root) => {
-			console.log(await Book.find({ author: { $in: root._id } }));
 			return await Book.countDocuments({
 				author: { $in: root._id },
 			});
@@ -175,7 +174,6 @@ const server = new ApolloServer({
 	typeDefs,
 	resolvers,
 	context: async ({ req }) => {
-		console.log("req", req);
 		const auth = req ? req.headers.authorization : null;
 		if (auth && auth.toLowerCase().startsWith("bearer ")) {
 			const decodedToken = jwt.verify(auth.substring(7), JWT_SECRET);
