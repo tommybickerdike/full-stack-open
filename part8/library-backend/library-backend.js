@@ -29,6 +29,8 @@ mongoose
 		console.log("error connecting to MongoDB:", error.message);
 	});
 
+mongoose.set("debug", true);
+
 const typeDefs = gql`
 	type Book {
 		title: String!
@@ -90,6 +92,8 @@ const resolvers = {
 	},
 	Author: {
 		bookCount: async (root) => {
+			console.log("ROOT", root);
+			// N+1 problem
 			return await Book.countDocuments({
 				author: { $in: root._id },
 			});
