@@ -6,11 +6,14 @@ const {
 } = require("apollo-server");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
+const { PubSub } = require("graphql-subscriptions");
 
 const mongoose = require("mongoose");
 const Author = require("./models/author");
 const Book = require("./models/book");
 const User = require("./models/user");
+
+const pubsub = new PubSub();
 
 const MONGODB_URI = process.env.MONGODB_URI;
 const JWT_SECRET = process.env.SECRET_KEY;
@@ -54,6 +57,9 @@ const typeDefs = gql`
 		bookCount: Int!
 		allBooks(author: String, genre: String): [Book!]!
 		allAuthors: [Author!]!
+	}
+	type Subscription {
+		bookAdded: Book!
 	}
 	type Mutation {
 		addBook(
@@ -121,6 +127,7 @@ const resolvers = {
 				});
 			}
 
+			pubsub.publish("BOOK_ADDED", { bookAdded: newBook });
 			return newBook;
 		},
 		createUser: (root, args) => {
@@ -170,6 +177,11 @@ const resolvers = {
 			}
 		},
 	},
+	Subscription: {
+		bookAdded: {
+			subscribe: () => pubsub.asyncIterator(["BOOK_ADDED"]),
+		},
+	},
 };
 
 const server = new ApolloServer({
@@ -185,6 +197,7 @@ const server = new ApolloServer({
 	},
 });
 
-server.listen().then(({ url }) => {
+server.listen().then(({ url, subscriptionsUrl }) => {
 	console.log(`Server ready at ${url}`);
+	console.log(`Subscriptions ready at ${subscriptionsUrl}`);
 });
