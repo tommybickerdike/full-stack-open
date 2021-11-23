@@ -57,8 +57,6 @@ const NewBook = ({ setError, favoriteGenre, ...props }) => {
 			},
 		});
 
-		setError(`[added]: ${title}`);
-
 		setTitle("");
 		setPublished("");
 		setAuthor("");

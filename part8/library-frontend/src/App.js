@@ -4,8 +4,8 @@ import Books from "./components/Books";
 import Recommended from "./components/Recommended";
 import NewBook from "./components/NewBook";
 import Login from "./components/Login";
-import { useApolloClient, useQuery } from "@apollo/client";
-import { ME } from "./queries";
+import { useApolloClient, useQuery, useSubscription } from "@apollo/client";
+import { BOOK_ADDED, ME } from "./queries";
 
 const Notify = ({ errorMessage }) => {
 	if (!errorMessage) {
@@ -37,6 +37,14 @@ const App = () => {
 		client.resetStore();
 		setPage("authors");
 	};
+
+	useSubscription(BOOK_ADDED, {
+		onSubscriptionData: ({ subscriptionData }) => {
+			setErrorMessage(
+				`${subscriptionData.data.bookAdded.title} by ${subscriptionData.data.bookAdded.author.name} added to books`
+			);
+		},
+	});
 
 	return (
 		<div>
