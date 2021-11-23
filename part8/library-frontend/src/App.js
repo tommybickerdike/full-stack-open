@@ -63,7 +63,11 @@ const App = () => {
 				favoriteGenre={favoriteGenre}
 			/>
 
-			<NewBook show={page === "add"} setError={notify} />
+			<NewBook
+				show={page === "add"}
+				setError={notify}
+				favoriteGenre={favoriteGenre}
+			/>
 
 			<Login show={page === "login"} setError={notify} setToken={setToken} />
 

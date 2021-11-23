@@ -6,9 +6,11 @@ const Books = (props) => {
 	const [books, setBooks] = useState([]);
 	const [filter, setFilter] = useState("");
 
-	const allBooks = useQuery(ALL_BOOKS);
+	const allBooks = useQuery(ALL_BOOKS, {
+		variables: { genre: "" },
+	});
 
-	const filteredBooks = useQuery(ALL_BOOKS, {
+	const bookQuery = useQuery(ALL_BOOKS, {
 		variables: { genre: filter },
 	});
 
@@ -17,18 +19,18 @@ const Books = (props) => {
 	};
 
 	useEffect(() => {
-		if (filteredBooks.data) {
-			setBooks(filteredBooks.data.allBooks);
+		if (bookQuery.data) {
+			setBooks(bookQuery.data.allBooks);
 		} else if (allBooks.data) {
 			setBooks(allBooks.data.allBooks);
 		}
-	}, [allBooks.data, filteredBooks.data]);
+	}, [allBooks.data, bookQuery.data]);
 
 	if (!props.show) {
 		return null;
 	}
 
-	if (allBooks.loading || filteredBooks.loading || !books) {
+	if (allBooks.loading || bookQuery.loading || !books) {
 		return (
 			<div>
 				<h2>books</h2>
