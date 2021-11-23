@@ -1,31 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { ALL_BOOKS } from "../queries";
 
 const Books = (props) => {
-	const result = useQuery(ALL_BOOKS);
+	const [books, setBooks] = useState([]);
 	const [filter, setFilter] = useState("");
 
-	if (!props.show) {
-		return null;
-	}
+	const allBooks = useQuery(ALL_BOOKS);
 
-	if (result.loading) {
-		return (
-			<div>
-				<h2>books</h2>
-				<p>loading...</p>
-			</div>
-		);
-	}
+	const filteredBooks = useQuery(ALL_BOOKS, {
+		variables: { genre: filter },
+	});
 
 	const updateFilter = (event) => {
 		setFilter(event.target.value);
 	};
 
-	const books = result.data.allBooks;
+	useEffect(() => {
+		if (filteredBooks.data) {
+			setBooks(filteredBooks.data.allBooks);
+		} else if (allBooks.data) {
+			setBooks(allBooks.data.allBooks);
+		}
+	}, [allBooks.data, filteredBooks.data]);
 
-	const genres = books.reduce((accumulator, element) => {
+	if (!props.show) {
+		return null;
+	}
+
+	if (allBooks.loading || filteredBooks.loading || !books) {
+		return (
+			<div>
+				<h2>books</h2>
+				<p>loading... {filter ? filter : ""} </p>
+			</div>
+		);
+	}
+
+	const genres = allBooks.data.allBooks.reduce((accumulator, element) => {
 		element.genres.forEach((genre) => {
 			if (genre !== "" && !accumulator.includes(genre)) {
 				accumulator.push(genre);
@@ -33,11 +45,6 @@ const Books = (props) => {
 		});
 		return accumulator;
 	}, []);
-
-	const booksToShow =
-		filter === ""
-			? books
-			: books.filter((book) => book.genres.includes(filter));
 
 	return (
 		<div>
@@ -49,7 +56,7 @@ const Books = (props) => {
 						<th>author</th>
 						<th>published</th>
 					</tr>
-					{booksToShow.map((b) => (
+					{books.map((b) => (
 						<tr key={b.title}>
 							<td>{b.title}</td>
 							<td>{b.author.name}</td>

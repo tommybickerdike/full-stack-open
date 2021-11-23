@@ -24,7 +24,7 @@ const Login = ({ setError, setToken, show }) => {
 		if (localStorage.getItem("user") !== null) {
 			setToken(localStorage.getItem("user"));
 		}
-	}, [result.data]);
+	}, [result.data, setToken]);
 
 	const loginHandler = (event) => {
 		event.preventDefault();
