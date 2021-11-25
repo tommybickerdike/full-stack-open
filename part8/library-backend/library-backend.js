@@ -5,6 +5,7 @@ const {
 	gql,
 } = require("apollo-server");
 require("dotenv").config();
+const DataLoader = require("dataloader");
 const jwt = require("jsonwebtoken");
 const { PubSub } = require("graphql-subscriptions");
 
@@ -88,14 +89,26 @@ const resolvers = {
 				args.genre ? { genres: { $in: [args.genre] } } : {}
 			).populate("author");
 		},
-		allAuthors: async () => await Author.find({}),
-	},
-	Author: {
-		bookCount: async (root) => {
-			console.log("ROOT", root);
-			// N+1 problem
-			return await Book.countDocuments({
-				author: { $in: root._id },
+		allAuthors: async () => {
+			const basicAuthors = await Author.find({});
+			const books = await Book.find({});
+
+			const authorLoader = new DataLoader((keys) => {
+				const result = keys.map((authorId) => {
+					const quant = books.filter((book) => {
+						return JSON.stringify(book.author) === JSON.stringify(authorId);
+					});
+					return quant.length;
+				});
+				return Promise.resolve(result);
+			});
+
+			const booksCount = await authorLoader.loadMany(
+				basicAuthors.map((author) => author._id)
+			);
+
+			return basicAuthors.map((author, index) => {
+				return { ...author._doc, bookCount: booksCount[index] };
 			});
 		},
 	},
