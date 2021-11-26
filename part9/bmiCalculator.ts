@@ -1,6 +1,8 @@
+const h: number = Number(process.argv[2]);
+const w: number = Number(process.argv[3]);
+
 function calculateBmi(height: number, weight: number): string {
 	const BMI = (weight / height / height) * 10000;
-	console.log(BMI);
 	if (BMI < 18.5) {
 		return "Underweight";
 	} else if (BMI < 25) {
@@ -11,4 +13,5 @@ function calculateBmi(height: number, weight: number): string {
 		return "Obese";
 	}
 }
-console.log(calculateBmi(180, 74));
+
+console.log(calculateBmi(h, w));

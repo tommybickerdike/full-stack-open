@@ -1,3 +1,7 @@
+const target: number = Number(process.argv[2]);
+const daysArray = process.argv.slice(3);
+const dailyHoursExercised: number[] = daysArray.map((day) => Number(day));
+
 interface ExerciseReport {
 	periodLength: number;
 	trainingDays: number;
@@ -9,8 +13,8 @@ interface ExerciseReport {
 }
 
 function calculateExercises(
-	dailyHoursExercised: number[],
-	target: number
+	target: number,
+	dailyHoursExercised: number[]
 ): ExerciseReport {
 	const periodLength = dailyHoursExercised.length;
 	const trainingDays = dailyHoursExercised.filter((hours) => hours > 0).length;
@@ -36,4 +40,4 @@ function calculateExercises(
 	};
 }
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2));
+console.log(calculateExercises(target, dailyHoursExercised));
