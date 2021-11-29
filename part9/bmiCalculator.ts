@@ -4,28 +4,47 @@ interface BMI {
 	bmi: string;
 }
 
-export default function calculateBmi(height: number, weight: number): BMI {
-	// CANNOT DO THIS AS ERROR VALUE CANNOT BE ASSIGNED TO BMI
-	// if (height <= 0 || weight <= 0) {
-	// 	return { error: "malformatted parameters" };
-	// }
+const parseArguments = (args: Array<number>): BMI => {
+	if (args.length < 2) throw new Error("Not enough arguments");
+	if (args.length > 2) throw new Error("Too many arguments");
 
-	const obj = {
+	if (!isNaN(Number(args[0])) && !isNaN(Number(args[1]))) {
+		return {
+			height: Number(args[0]),
+			weight: Number(args[1]),
+			bmi: "",
+		};
+	} else {
+		throw new Error("Provided values were not numbers!");
+	}
+};
+
+function getBMI(height: number, weight: number, bmi: string): BMI {
+	const result = {
 		height,
 		weight,
-		bmi: "",
+		bmi,
 	};
 
-	const BMI = (weight / height / height) * 10000;
-	if (BMI < 18.5) {
-		obj.bmi = "Underweight";
-	} else if (BMI < 25) {
-		obj.bmi = "Normal (healthy weight)";
-	} else if (BMI < 30) {
-		obj.bmi = "Overweight";
+	const BMIcalc = (weight / height / height) * 10000;
+	if (BMIcalc < 18.5) {
+		result.bmi = "Underweight";
+	} else if (BMIcalc < 25) {
+		result.bmi = "Normal (healthy weight)";
+	} else if (BMIcalc < 30) {
+		result.bmi = "Overweight";
 	} else {
-		obj.bmi = "Obese";
+		result.bmi = "Obese";
 	}
 
-	return obj;
+	return result;
+}
+
+export default function calculateBmi(height: number, weight: number): object {
+	try {
+		const prams = parseArguments([height, weight]);
+		return getBMI(prams.height, prams.weight, prams.bmi);
+	} catch (error: unknown) {
+		return { error: "malformatted parameters" };
+	}
 }
