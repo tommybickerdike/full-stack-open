@@ -1,7 +1,3 @@
-const target: number = Number(process.argv[2]);
-const daysArray = process.argv.slice(3);
-const dailyHoursExercised: number[] = daysArray.map((day) => Number(day));
-
 interface ExerciseReport {
 	periodLength: number;
 	trainingDays: number;
@@ -12,7 +8,28 @@ interface ExerciseReport {
 	average: number;
 }
 
-function calculateExercises(
+interface ExerciseArgs {
+	target: number;
+	dailyHoursExercised: number[];
+}
+
+const parseArguments = (
+	target: number,
+	dailyHoursExercised: number[]
+): ExerciseArgs => {
+	if (!isNaN(Number(target)) && !isNaN(Number(dailyHoursExercised[0]))) {
+		return {
+			target: Number(target),
+			dailyHoursExercised,
+		};
+	} else if (!target || !dailyHoursExercised) {
+		throw new Error("parameters missing");
+	} else {
+		throw new Error("malformatted parameters");
+	}
+};
+
+function exerciseResponse(
 	target: number,
 	dailyHoursExercised: number[]
 ): ExerciseReport {
@@ -40,4 +57,14 @@ function calculateExercises(
 	};
 }
 
-console.log(calculateExercises(target, dailyHoursExercised));
+export default function exerciseCalculator(
+	target: number,
+	dailyHoursExercised: number[]
+): object {
+	try {
+		const prams = parseArguments(target, dailyHoursExercised);
+		return exerciseResponse(prams.target, prams.dailyHoursExercised);
+	} catch (error) {
+		return { error: error.message };
+	}
+}

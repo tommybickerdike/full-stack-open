@@ -19,7 +19,7 @@ const parseArguments = (args: Array<number>): BMI => {
 	}
 };
 
-function getBMI(height: number, weight: number, bmi: string): BMI {
+function calculateBMI(height: number, weight: number, bmi: string): BMI {
 	const result = {
 		height,
 		weight,
@@ -40,10 +40,10 @@ function getBMI(height: number, weight: number, bmi: string): BMI {
 	return result;
 }
 
-export default function calculateBmi(height: number, weight: number): object {
+export default function bmiCalculator(height: number, weight: number): object {
 	try {
 		const prams = parseArguments([height, weight]);
-		return getBMI(prams.height, prams.weight, prams.bmi);
+		return calculateBMI(prams.height, prams.weight, prams.bmi);
 	} catch (error: unknown) {
 		return { error: "malformatted parameters" };
 	}
