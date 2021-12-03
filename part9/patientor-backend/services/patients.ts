@@ -12,15 +12,25 @@ const getPatients = (): PublicPatients[] => {
 	}));
 };
 
+const getPatient = (id: string): Patients => {
+	const patient = patients.find((p) => p.id === id);
+	if (patient) {
+		return patient;
+	} else {
+		throw new Error("Patient not found");
+	}
+};
+
 const addPatient = (patient: NewPatients): Patients => {
 	const id = uuid();
 	const newPatient = {
 		id,
 		...patient,
+		entries: [],
 	};
 
 	patients.push(newPatient);
 	return newPatient;
 };
 
-export default { getPatients, addPatient };
+export default { getPatients, addPatient, getPatient };

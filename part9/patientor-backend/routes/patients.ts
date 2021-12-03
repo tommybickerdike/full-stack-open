@@ -8,6 +8,16 @@ router.get("/", (_req, res) => {
 	res.send(patientsService.getPatients());
 });
 
+router.get("/:id", (req, res) => {
+	try {
+		res.json(patientsService.getPatient(req.params.id));
+	} catch (e: unknown) {
+		if (e instanceof Error) {
+			res.status(404).send(e.message);
+		}
+	}
+});
+
 router.post("/", (req, res) => {
 	try {
 		const newPatient = toNewPatient(req.body);
