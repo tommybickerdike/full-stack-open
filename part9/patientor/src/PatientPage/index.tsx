@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import { useParams } from "react-router";
 import { apiBaseUrl } from "../constants";
-import { Patient } from "../types";
+import { Patient, Entry } from "../types";
 import { useStateValue } from "../state";
 
 const PatientPage = () => {
@@ -37,6 +37,30 @@ const PatientPage = () => {
 		}
 	};
 
+	const patentEntries = (entry: Entry[]) => {
+		if (entry.length) {
+			return (
+				<div>
+					<h2>Entries</h2>
+					{entry.map((e) => (
+						<div key={e.id}>
+							<p>
+								{e.date} <em>{e.description}</em>
+							</p>
+							<ul>
+								{e.diagnosisCodes?.map((d) => (
+									<li key={d}>{d}</li>
+								))}
+							</ul>
+						</div>
+					))}
+				</div>
+			);
+		} else {
+			return <h2>No entries</h2>;
+		}
+	};
+
 	return currentPatient ? (
 		<div>
 			<h1>
@@ -48,6 +72,8 @@ const PatientPage = () => {
 				<br />
 				occupation: {currentPatient.occupation}
 			</p>
+
+			{patentEntries(currentPatient.entries)}
 		</div>
 	) : (
 		<div>
