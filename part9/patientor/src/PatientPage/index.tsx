@@ -6,7 +6,7 @@ import { Patient, Entry } from "../types";
 import { useStateValue } from "../state";
 
 const PatientPage = () => {
-	const [{ currentPatient }, dispatch] = useStateValue();
+	const [{ currentPatient, diagnosisList }, dispatch] = useStateValue();
 	const { id } = useParams<{ id: string }>();
 
 	React.useEffect(() => {
@@ -37,6 +37,25 @@ const PatientPage = () => {
 		}
 	};
 
+	const patientDiagnosis = (diagnosis: string[] | undefined) => {
+		const diagnosisDetails = diagnosis?.map((diag) =>
+			diagnosisList.find((d) => d.code === diag)
+		);
+		if (diagnosisDetails) {
+			return (
+				<ul>
+					{diagnosisDetails?.map((d) => (
+						<li key={d?.code}>
+							{d?.code} {d?.name}
+						</li>
+					))}
+				</ul>
+			);
+		} else {
+			return null;
+		}
+	};
+
 	const patentEntries = (entry: Entry[]) => {
 		if (entry.length) {
 			return (
@@ -47,11 +66,7 @@ const PatientPage = () => {
 							<p>
 								{e.date} <em>{e.description}</em>
 							</p>
-							<ul>
-								{e.diagnosisCodes?.map((d) => (
-									<li key={d}>{d}</li>
-								))}
-							</ul>
+							{patientDiagnosis(e.diagnosisCodes)}
 						</div>
 					))}
 				</div>
