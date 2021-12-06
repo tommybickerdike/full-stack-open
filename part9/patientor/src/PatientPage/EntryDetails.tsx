@@ -6,6 +6,7 @@ import {
 	OccupationalHealthcareEntry,
 	HealthCheckEntry,
 } from "../types";
+import { Card } from "semantic-ui-react";
 
 const patientDiagnosis = (diagnosis: string[] | undefined) => {
 	const [{ diagnosisList }] = useStateValue();
@@ -32,11 +33,17 @@ const HospitalEntryDetails: React.FC<{ entry: HospitalEntry }> = ({
 }) => {
 	console.log("E", entry);
 	return (
-		<div>
-			<h3>{entry.date}</h3>
-			<p>{entry.description}</p>
-			{patientDiagnosis(entry.diagnosisCodes)}
-		</div>
+		<Card fluid>
+			<Card.Content>
+				<Card.Header>
+					<h3>
+						{entry.date} <i className="hospital icon"></i>
+					</h3>
+				</Card.Header>
+				<p>{entry.description}</p>
+				{patientDiagnosis(entry.diagnosisCodes)}
+			</Card.Content>
+		</Card>
 	);
 };
 
@@ -45,10 +52,17 @@ const OccupationalHealthcareEntryDetails: React.FC<{
 }> = ({ entry }) => {
 	console.log("E", entry);
 	return (
-		<div>
-			<h3>{entry.date}</h3>
-			<p>{entry.description}</p>
-		</div>
+		<Card fluid>
+			<Card.Content>
+				<Card.Header>
+					<h3>
+						{entry.date} <i className="briefcase icon"></i>
+					</h3>
+				</Card.Header>
+				<p>{entry.description}</p>
+				{patientDiagnosis(entry.diagnosisCodes)}
+			</Card.Content>
+		</Card>
 	);
 };
 
@@ -57,10 +71,17 @@ const HealthCheckEntryDetails: React.FC<{
 }> = ({ entry }) => {
 	console.log("E", entry);
 	return (
-		<div>
-			<h3>{entry.date}</h3>
-			<p>{entry.description}</p>
-		</div>
+		<Card fluid>
+			<Card.Content>
+				<Card.Header>
+					<h3>
+						{entry.date} <i className="clipboard check icon"></i>
+					</h3>
+				</Card.Header>
+				<p>{entry.description}</p>
+				{patientDiagnosis(entry.diagnosisCodes)}
+			</Card.Content>
+		</Card>
 	);
 };
 
