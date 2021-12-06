@@ -24,7 +24,7 @@ const PatientPage = () => {
 			}
 		};
 		void fetchPatient();
-	}, [dispatch, currentPatient, id]);
+	}, [id]);
 
 	const genderIcon = (gender: string) => {
 		switch (gender) {
