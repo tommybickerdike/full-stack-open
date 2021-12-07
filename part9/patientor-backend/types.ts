@@ -73,3 +73,10 @@ export type Patients = {
 export type PublicPatients = Omit<Patients, "ssn" | "entries"> | undefined;
 
 export type NewPatients = Omit<Patients, "id">;
+
+// Define special omit for unions
+type UnionOmit<T, K extends string | number | symbol> = T extends unknown
+	? Omit<T, K>
+	: never;
+
+export type NewEntry = UnionOmit<Entry, "id">;

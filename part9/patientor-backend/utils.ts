@@ -8,11 +8,11 @@ const isDate = (date: string): boolean => {
 	return Boolean(Date.parse(date));
 };
 
-const parseName = (name: unknown): string => {
-	if (!name || !isString(name)) {
+const parseString = (string: unknown): string => {
+	if (!string || !isString(string)) {
 		throw new Error("Incorrect or missing name: " + name);
 	}
-	return name;
+	return string;
 };
 
 const parseDate = (date: unknown): string => {
@@ -20,13 +20,6 @@ const parseDate = (date: unknown): string => {
 		throw new Error("Incorrect or missing date: " + date);
 	}
 	return date;
-};
-
-const parseSSN = (ssn: unknown): string => {
-	if (!ssn || !isString(ssn)) {
-		throw new Error("Incorrect or missing ssn: " + ssn);
-	}
-	return ssn;
 };
 
 const isGender = (param: any): param is Gender => {
@@ -48,7 +41,7 @@ const parseOccupation = (occupation: unknown): string => {
 	return occupation;
 };
 
-type Fields = {
+type PatientFields = {
 	name: unknown;
 	dateOfBirth: unknown;
 	ssn: unknown;
@@ -56,17 +49,17 @@ type Fields = {
 	occupation: unknown;
 };
 
-const toNewPatient = ({
+export const toNewPatient = ({
 	name,
 	dateOfBirth,
 	ssn,
 	gender,
 	occupation,
-}: Fields): NewPatients => {
+}: PatientFields): NewPatients => {
 	const newPatient: NewPatients = {
-		name: parseName(name),
+		name: parseString(name),
 		dateOfBirth: parseDate(dateOfBirth),
-		ssn: parseSSN(ssn),
+		ssn: parseString(ssn),
 		gender: parseGender(gender),
 		occupation: parseOccupation(occupation),
 		entries: [],
@@ -74,5 +67,3 @@ const toNewPatient = ({
 
 	return newPatient;
 };
-
-export default toNewPatient;
