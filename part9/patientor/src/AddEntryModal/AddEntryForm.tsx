@@ -48,6 +48,9 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
 				if (!values.date) {
 					errors.date = requiredError;
 				}
+				if (!/^\d{4}-\d{2}-\d{2}$/.test(values.date)) {
+					errors.date = "Date must be in YYYY-MM-DD format";
+				}
 				if (!values.specialist) {
 					errors.specialist = requiredError;
 				}
