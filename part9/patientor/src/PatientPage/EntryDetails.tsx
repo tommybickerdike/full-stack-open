@@ -31,7 +31,6 @@ const patientDiagnosis = (diagnosis: string[] | undefined) => {
 const HospitalEntryDetails: React.FC<{ entry: HospitalEntry }> = ({
 	entry,
 }) => {
-	console.log("E", entry);
 	return (
 		<Card fluid>
 			<Card.Content>
@@ -50,7 +49,6 @@ const HospitalEntryDetails: React.FC<{ entry: HospitalEntry }> = ({
 const OccupationalHealthcareEntryDetails: React.FC<{
 	entry: OccupationalHealthcareEntry;
 }> = ({ entry }) => {
-	console.log("E", entry);
 	return (
 		<Card fluid>
 			<Card.Content>
@@ -69,7 +67,6 @@ const OccupationalHealthcareEntryDetails: React.FC<{
 const HealthCheckEntryDetails: React.FC<{
 	entry: HealthCheckEntry;
 }> = ({ entry }) => {
-	console.log("E", entry);
 	return (
 		<Card fluid>
 			<Card.Content>
