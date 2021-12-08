@@ -9,7 +9,7 @@ import {
 	DiagnosisSelection,
 	NumberField,
 } from "./FormField";
-import { EntryType, Entry, HealthCheckRating } from "../types";
+import { EntryType, Entry } from "../types";
 import { useStateValue } from "../state";
 
 export type EntryFormValues = Omit<Entry, "id">;
@@ -26,6 +26,63 @@ const typeOptions: TypeOption[] = [
 	{ value: EntryType.OccupationalHealthcare, label: "Occupational Healthcare" },
 ];
 
+const extraFields = (type: EntryType) => {
+	switch (type) {
+		case EntryType.Hospital:
+			return (
+				<>
+					<Field
+						label="Discharge date"
+						placeholder="YYYY-MM-DD"
+						name="discharge.date"
+						component={TextField}
+					/>
+					<Field
+						label="Discharge criteria"
+						name="discharge.criteria"
+						component={TextField}
+					/>
+				</>
+			);
+		case EntryType.OccupationalHealthcare:
+			return (
+				<>
+					<Field
+						label="Employer name"
+						name="employerName"
+						component={TextField}
+					/>
+					<Field
+						label="Sick leave start date"
+						placeholder="YYYY-MM-DD"
+						name="sickLeave.startDate"
+						component={TextField}
+					/>
+					<Field
+						label="Sick leave end date"
+						placeholder="YYYY-MM-DD"
+						name="sickLeave.endDate"
+						component={TextField}
+					/>
+				</>
+			);
+		case EntryType.HealthCheck:
+			return (
+				<>
+					<Field
+						label="Health Check Rating"
+						name="healthCheckRating"
+						component={NumberField}
+						min={0}
+						max={3}
+					/>
+				</>
+			);
+		default:
+			return null;
+	}
+};
+
 export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
 	const [{ diagnosisList }] = useStateValue();
 	return (
@@ -36,7 +93,10 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
 				date: "",
 				specialist: "",
 				diagnosisCodes: [],
-				healthCheckRating: HealthCheckRating.Healthy,
+				healthCheckRating: 0,
+				employerName: "",
+				sickLeave: { startDate: "", endDate: "" },
+				discharge: { date: "", criteria: "" },
 			}}
 			onSubmit={onSubmit}
 			validate={(values) => {
@@ -54,10 +114,26 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
 				if (!values.specialist) {
 					errors.specialist = requiredError;
 				}
+				if (!values.description) {
+					errors.description = requiredError;
+				}
+				if (!values.diagnosisCodes) {
+					errors.diagnosisCodes = requiredError;
+				}
+				if (values.type === EntryType.HealthCheck) {
+					if (!values.healthCheckRating) {
+						errors.healthCheckRating = requiredError;
+					}
+				}
+				if (values.type === EntryType.OccupationalHealthcare) {
+					if (!values.employerName) {
+						errors.employerName = requiredError;
+					}
+				}
 				return errors;
 			}}
 		>
-			{({ isValid, dirty, setFieldValue, setFieldTouched }) => {
+			{({ isValid, dirty, setFieldValue, setFieldTouched, values }) => {
 				return (
 					<Form className="form ui">
 						<SelectField label="Type" name="type" options={typeOptions} />
@@ -79,18 +155,12 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
 							name="specialist"
 							component={TextField}
 						/>
-						<Field
-							label="healthCheckRating"
-							name="healthCheckRating"
-							component={NumberField}
-							min={0}
-							max={3}
-						/>
 						<DiagnosisSelection
 							setFieldValue={setFieldValue}
 							setFieldTouched={setFieldTouched}
 							diagnoses={Object.values(diagnosisList)}
 						/>
+						{extraFields(values.type)}
 						<Grid>
 							<Grid.Column floated="left" width={5}>
 								<Button type="button" onClick={onCancel} color="red">
